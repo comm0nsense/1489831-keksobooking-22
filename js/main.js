@@ -1,24 +1,39 @@
-function getRandomNumber(min, max) {
-  min = Math.abs(+min);
-  max = Math.abs(+max);
+'use strict';
+
+function getRandomInt(min, max) {
+
+  if (min < 0 || max < 0) {
+    throw new Error('Range must be positive');
+  }
+
   if (min > max) {
     const swap = min;
     min = max;
     max = swap;
   }
-  return Math.random() * (max - min + 1) + min;
+
+  min = Math.ceil(+min);
+  max = Math.floor(+max);
+
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function getRandomInt(min, max) {
-  const randomInt = getRandomNumber(min, max);
-  return Math.floor(randomInt);
-}
+function getRandomFloat(min, max, decimal = 1) {
 
-function getRandomFloat(min, max, decimal = 2) {
-  const randomFloat = getRandomNumber(min, max);
+  if (min < 0 || max < 0) {
+    throw new Error('Range must be positive');
+  }
+
+  if (min > max) {
+    const swap = min;
+    min = max;
+    max = swap;
+  }
+
+  const randomFloat = Math.random() * (max - min) + min;
+
   return Number(randomFloat.toFixed(decimal));
 }
 
-getRandomNumber(32.1324354, 0);
-getRandomInt(32.1324354, 0);
-getRandomFloat(32.1324354, 0, 4);
+getRandomInt(36, 25);
+getRandomFloat(1.1, 1.2, 4);
