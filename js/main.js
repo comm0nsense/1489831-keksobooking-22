@@ -10,12 +10,12 @@ function getRandomNumber(min, max) {
 }
 
 function getRandomInt(min, max) {
-  const randomInt = getRandomNumber (min, max);
+  const randomInt = getRandomNumber(min, max);
   return Math.floor(randomInt);
 }
 
 function getRandomFloat(min, max, decimal = 2) {
-  const randomFloat = getRandomNumber(min,  max);
+  const randomFloat = getRandomNumber(min, max);
   return Number(randomFloat.toFixed(decimal));
 }
 
