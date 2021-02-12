@@ -80,8 +80,8 @@ const DESCRIPTIONS = [
 const getAuthor = () => {
   return {
     avatar: `img/avatars/user0${getRandomInt(1, AVATAR_COUNT)}.png`,
-  };
-}
+  }
+};
 
 const getLocation = () => {
   return {
@@ -92,25 +92,30 @@ const getLocation = () => {
 
 const getFeatureSet = () => {
   const FEATURE_COUNT = getRandomInt(1, FEATURES.length);
-  let featureSet = [];
-  let shuffledFeatures = shuffleArray(FEATURES);
+  const featureSet = [];
+  const shuffledFeatures = shuffleArray(FEATURES);
+
   for (let i = 0; i <= FEATURE_COUNT - 1; i++) {
     featureSet.push(shuffledFeatures[i]);
   }
+
   return featureSet;
 }
 
 const getPhotoSet = () => {
   const PHOTO_COUNT = getRandomInt(1, MAX_PHOTO_NUMBER);
-  let photoSet = [];
+  const photoSet = [];
+
   for (let i = 1; i <= PHOTO_COUNT; i++) {
     photoSet.push(`http://o0.github.io/assets/images/tokyo/hotel${[i]}.jpg`);
   }
+
   return photoSet;
 }
 
 const createOffer = () => {
-  let location = getLocation()
+  const location = getLocation()
+
   return {
     author: getAuthor(),
     offer: {
@@ -133,3 +138,4 @@ const createOffer = () => {
 const offers = new Array(OBJECTS_COUNT).fill(null).map(() => createOffer());
 
 export { offers };
+
