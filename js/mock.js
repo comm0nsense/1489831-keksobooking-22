@@ -1,5 +1,27 @@
+import { getRandomInt, getRandomFloat, shuffleArray } from './util.js';
 
-import {getRandomInt, getRandomFloat} from './util.js';
+const OBJECTS_COUNT = 10;
+const COORDINATE_DECIMALS_COUNT = 5;
+const AVATAR_COUNT = 8;
+const ROOMS_COUNT = 10;
+const GUESTS_COUNT = 50;
+const MAX_PHOTO_NUMBER = 10;
+
+const PriceRange = {
+  MIN: 500,
+  MAX: 15000,
+}
+
+const Coordinates = {
+  x: {
+    MIN: 35.65,
+    MAX: 35.7,
+  },
+  y: {
+    MIN: 139.7,
+    MAX: 139.8,
+  },
+}
 
 const TITLES = [
   'Милая уютная квартирка в центре Токио',
@@ -55,39 +77,17 @@ const DESCRIPTIONS = [
   'Апартаменты Kario Kamata с видом на город расположены в Токио, в 2 км от храма Омори Хачиман и в 2,2 км от святилища Мива-Ицукусим. Апартаменты оснащены кондиционеромю',
 ]
 
-const OBJECTS_COUNT = 10;
-
-
-const createAuthor = () => {
+const getAuthor = () => {
   return {
-    avatar: `img/avatars/user0${getRandomInt(1, 8)}.png`,
+    avatar: `img/avatars/user0${getRandomInt(1, AVATAR_COUNT)}.png`,
   };
 }
 
-const authors = new Array(OBJECTS_COUNT).fill(null).map(() => createAuthor());
-
-authors;
-// console.log(authors);
-
-const createLocation = () => {
+const getLocation = () => {
   return {
-    x: getRandomFloat(35.65000, 35.70000, 5),
-    y: getRandomFloat(139.70000, 139.80000, 5),
+    x: getRandomFloat(Coordinates.x.MIN, Coordinates.x.MAX, COORDINATE_DECIMALS_COUNT),
+    y: getRandomFloat(Coordinates.y.MIN, Coordinates.y.MAX, COORDINATE_DECIMALS_COUNT),
   }
-}
-
-const locations = new Array(OBJECTS_COUNT).fill(null).map(() => createLocation());
-
-const shuffleArray = (array) => {
-  let curId = array.length;
-  while (0 !== curId) {
-    let randId = Math.floor(Math.random() * curId);
-    curId -= 1;
-    let tmp = array[curId];
-    array[curId] = array[randId];
-    array[randId] = tmp;
-  }
-  return array;
 }
 
 const getFeatureSet = () => {
@@ -101,7 +101,7 @@ const getFeatureSet = () => {
 }
 
 const getPhotoSet = () => {
-  const PHOTO_COUNT = getRandomInt(1, 10);
+  const PHOTO_COUNT = getRandomInt(1, MAX_PHOTO_NUMBER);
   let photoSet = [];
   for (let i = 1; i <= PHOTO_COUNT; i++) {
     photoSet.push(`http://o0.github.io/assets/images/tokyo/hotel${[i]}.jpg`);
@@ -110,23 +110,26 @@ const getPhotoSet = () => {
 }
 
 const createOffer = () => {
+  let location = getLocation()
   return {
-    title: TITLES[getRandomInt(0, TITLES.length - 1)],
-    address: locations[getRandomInt(0, locations.length - 1)],
-    price: getRandomInt(500, 15000),
-    type: TYPES[getRandomInt(0, TYPES.length - 1)],
-    rooms: getRandomInt(1, 10),
-    guests: getRandomInt(1, 10),
-    checkin: CHECKINS[getRandomInt(0, CHECKINS.length - 1)],
-    checkout: CHECKOUTS[getRandomInt(0, CHECKINS.length - 1)],
-    features: getFeatureSet(),
-    description: DESCRIPTIONS[getRandomInt(0, DESCRIPTIONS.length - 1)],
-    photos: getPhotoSet(),
+    author: getAuthor(),
+    offer: {
+      title: TITLES[getRandomInt(0, TITLES.length - 1)],
+      address: `${location.x}, ${location.y}`,
+      price: getRandomInt(PriceRange.MIN, PriceRange.MAX),
+      type: TYPES[getRandomInt(0, TYPES.length - 1)],
+      rooms: getRandomInt(1, ROOMS_COUNT),
+      guests: getRandomInt(1, GUESTS_COUNT),
+      checkin: CHECKINS[getRandomInt(0, CHECKINS.length - 1)],
+      checkout: CHECKOUTS[getRandomInt(0, CHECKINS.length - 1)],
+      features: getFeatureSet(),
+      description: DESCRIPTIONS[getRandomInt(0, DESCRIPTIONS.length - 1)],
+      photos: getPhotoSet(),
+    },
+    location: location,
   }
 }
 
 const offers = new Array(OBJECTS_COUNT).fill(null).map(() => createOffer());
 
-offers;
-// console.log(offers);
-
+export { offers };

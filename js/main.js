@@ -1,1 +1,1 @@
-import './data.js';
+import {  offers } from './mock.js';

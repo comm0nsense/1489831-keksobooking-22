@@ -2,8 +2,6 @@ const getRandomInt = (min, max) => {
   if (min < 0 || max < 0) {
     throw new Error('Range must be positive');
   }
-  min = Math.ceil(+min);
-  max = Math.floor(+max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
@@ -18,9 +16,17 @@ const getRandomFloat = (min, max, decimal = 1) => {
 getRandomInt(36, 25);
 getRandomFloat(1.1, 1.2, 4);
 
-// console.log(getRandomInt(24, 25));
-// for (let i = 0; i < 21; i++) {
-// console.log(getRandomFloat(1.2, 1.1, 4));
-// }
 
-export {getRandomInt, getRandomFloat};
+const shuffleArray = (array) => {
+  let curId = array.length;
+  while (0 !== curId) {
+    let randId = Math.floor(Math.random() * curId);
+    curId -= 1;
+    let tmp = array[curId];
+    array[curId] = array[randId];
+    array[randId] = tmp;
+  }
+  return array;
+}
+
+export {getRandomInt, getRandomFloat, shuffleArray};
