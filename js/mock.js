@@ -5,7 +5,7 @@ const COORDINATE_DECIMALS_COUNT = 5;
 const AVATAR_COUNT = 8;
 const ROOMS_COUNT = 10;
 const GUESTS_COUNT = 50;
-const MAX_PHOTO_NUMBER = 10;
+const MAX_PHOTO_NUMBER = 3;
 
 const PriceRange = {
   MIN: 500,

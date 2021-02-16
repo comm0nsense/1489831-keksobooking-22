@@ -1,1 +1,4 @@
-import {  offers } from './mock.js';
+import './mock.js';
+import './card.js';
+
+
