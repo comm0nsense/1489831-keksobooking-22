@@ -1,11 +1,4 @@
-import { offers } from './mock.js';
-
-//Контейнер для карточек
-const cardContainer = document.querySelector('#map-canvas');
-
-//Шаблон карточки
-const cardTemplate = document.querySelector('#card').content;
-const newCardTemplate = cardTemplate.querySelector('.popup');
+import { createOffers } from './mock.js';
 
 // Создание мапа по типам жилья
 const typeMap = new Map([
@@ -14,6 +7,16 @@ const typeMap = new Map([
   ['house', 'Дом'],
   ['bungalow', 'Бунгало'],
 ]);
+
+// Создание массива тестовых данных
+const offers = createOffers();
+
+//Контейнер для карточек
+const cardContainer = document.querySelector('#map-canvas');
+
+//Шаблон карточки
+const cardTemplate = document.querySelector('#card').content;
+const newCardTemplate = cardTemplate.querySelector('.popup');
 
 //Создаем карточку
 const createCard = () => {
@@ -37,7 +40,7 @@ const createCard = () => {
   features.forEach((feature) => {
     const addFeature = document.createElement('li');
     addFeature.classList.add('popup__feature');
-    addFeature.classList.add('popup__feature--' + feature);
+    addFeature.classList.add(`popup__feature--${feature}`);
     featuresList.appendChild(addFeature);
   });
 
@@ -64,4 +67,4 @@ const createCard = () => {
   cardContainer.appendChild(newCard);
 }
 
-createCard();
+export { createCard };
