@@ -135,7 +135,7 @@ const createOffer = () => {
   }
 }
 
-const offers = new Array(OBJECTS_COUNT).fill(null).map(() => createOffer());
+const createOffers = () =>  new Array(OBJECTS_COUNT).fill(null).map(() => createOffer());
 
-export { offers };
+export { createOffers };
 

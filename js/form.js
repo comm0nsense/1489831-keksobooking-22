@@ -32,8 +32,10 @@ const updateCheckTime = (evt) => {
 };
 
 //Обработчики событий
-typeSelect.addEventListener('input', updateOfferPrice);
-timeInSelect.addEventListener('input', updateCheckTime);
-timeOutSelect.addEventListener('input', updateCheckTime);
+const updateFormInput = () => {
+  typeSelect.addEventListener('input', updateOfferPrice);
+  timeInSelect.addEventListener('input', updateCheckTime);
+  timeOutSelect.addEventListener('input', updateCheckTime);
+}
 
-export { updateOfferPrice, updateCheckTime }
+export { updateFormInput }
