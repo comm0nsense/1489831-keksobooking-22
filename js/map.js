@@ -1,3 +1,1 @@
-L.map('map__canvas').setView()
-
-
+const map = L.map('map-canvas');

@@ -1,12 +1,12 @@
 import { createOffers } from  './mock.js';
 import { createCard } from './card.js';
-import { setFormInputHandlers } from './form.js';
-import  { getAdFormInactive, getMapFiltersInactive} from './map.js';
-
+import { setFormInputHandlers, getAdFormInactive, getMapFiltersInactive } from './form.js';
 
 createOffers();
 // createCard();
 setFormInputHandlers();
+// getAdFormInactive();
+// getMapFiltersInactive();
 
 
 

@@ -59,5 +59,4 @@ const getMapFiltersInactive = () => {
   mapFiltersIds.forEach(mapFilterId => mapFilterId.disabled = true);
   mapFeatures.disabled = true;
 }
-
-export { setFormInputHandlers }
+export { setFormInputHandlers, getAdFormInactive, getMapFiltersInactive }
