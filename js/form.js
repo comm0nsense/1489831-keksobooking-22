@@ -12,8 +12,12 @@ const priceInput = newCardForm.querySelector('#price');
 const typeSelect = newCardForm.querySelector('#type');
 const timeInSelect = newCardForm.querySelector('#timein');
 const timeOutSelect = newCardForm.querySelector('#timeout');
+const adFormAddress = newCardForm.querySelector('#address');
 const adFormHeader = newCardForm.querySelector('.ad-form-header');
 const adFormElements = newCardForm.querySelectorAll('.ad-form__element');
+
+//Делаем координаты недоступными для редактированя
+adFormAddress.readOnly = true;
 
 //Фильтрация объявлений
 const mapFilters = document.querySelector('.map__filters');
@@ -74,6 +78,7 @@ const getMapFiltersActive = () => {
 const inactivatePageState = () => {
   getAdFormInactive();
   getMapFiltersInactive();
+  // console.log('Page is inactivated');
 };
 
 const activatePageState = () => {
@@ -81,4 +86,7 @@ const activatePageState = () => {
   getMapFiltersActive();
 };
 
-export { setFormInputHandlers, inactivatePageState, activatePageState }
+setFormInputHandlers();
+inactivatePageState();
+
+export { setFormInputHandlers, activatePageState, adFormAddress }
