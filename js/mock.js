@@ -137,5 +137,5 @@ const createOffer = () => {
 
 const createOffers = () =>  new Array(OBJECTS_COUNT).fill(null).map(() => createOffer());
 
-export { createOffers };
+export { createOffers, getLocation };
 
