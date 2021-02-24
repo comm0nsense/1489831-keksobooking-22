@@ -137,5 +137,5 @@ const createOffer = () => {
 
 const createOffers = () =>  new Array(OBJECTS_COUNT).fill(null).map(() => createOffer());
 
-export { createOffers, getLocation };
+export { createOffers, COORDINATE_DECIMALS_COUNT };
 
