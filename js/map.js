@@ -1,6 +1,6 @@
 /* global L:readonly */
 
-import { activatePageState, adFormAddress } from './form.js';
+import { getPageActive, adFormAddress } from './form.js';
 import { createCard } from './card.js';
 import { COORDINATE_DECIMALS_COUNT } from './mock.js';
 
@@ -20,7 +20,7 @@ const DefaultCoordinates = {
 const getMap = () => {
   const map = L.map('map-canvas')
     .on('load', () => {
-      activatePageState();
+      getPageActive();
       adFormAddress.value = `${DefaultCoordinates.X}, ${DefaultCoordinates.Y}`
     })
     .setView({

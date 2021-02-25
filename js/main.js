@@ -1,5 +1,5 @@
 import { createOffers } from  './mock.js';
-import { setFormInputHandlers, inactivatePageState} from './form.js';
+import { setFormInputHandlers, getPageInactive} from './form.js';
 import { getMap, getPins } from './map.js';
 
 // Создание массива тестовых данных
@@ -9,9 +9,11 @@ const offers = createOffers();
 setFormInputHandlers();
 
 //Делаем страницу неактивной
-inactivatePageState();
+getPageInactive();
 
-// Рисуем карту и пины
+// getPageActive();
+
+//Рисуем карту и пины
 const map = getMap();
 getPins(map, offers);
 
