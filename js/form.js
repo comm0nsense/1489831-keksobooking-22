@@ -10,6 +10,13 @@ const TypeToPrice = {
   bungalow: 0,
 };
 
+const RoomToCapacity = {
+  1: [1],
+  2: [1, 2],
+  3: [1, 2, 3],
+  100: [0],
+};
+
 //Форма и поля ввода карточки
 const newCardForm = document.querySelector('.ad-form');
 const priceInput = newCardForm.querySelector('#price');
@@ -20,8 +27,9 @@ const adFormAddress = newCardForm.querySelector('#address');
 const adFormHeader = newCardForm.querySelector('.ad-form-header');
 const adFormElements = newCardForm.querySelectorAll('.ad-form__element');
 const titleInput = newCardForm.querySelector('#title');
-const roomNumber = newCardForm.querySelector('#room_number');
-const roomCapacity = newCardForm.querySelector('#capacity');
+const roomsNumber = newCardForm.querySelector('#room_number');
+const capacitySelect = newCardForm.querySelector('#capacity')
+const capacityOptions = capacitySelect.querySelectorAll('option');
 
 //Фильтрация объявлений
 const mapFilters = document.querySelector('.map__filters');
@@ -51,7 +59,6 @@ const updateOfferPrice = () => {
 };
 
 const checkOfferPrice = () => {
-
   const price = priceInput.value;
   const minPrice = TypeToPrice[typeSelect.value];
 
@@ -77,19 +84,44 @@ const updateCheckTime = (evt) => {
   }
 };
 
-const checkInputCapacity = (roomNumber, roomCapacity) => {
-  const rooms = roomNumber.value;
-  const guests = roomCapacity.value;
-  console.log(`${rooms} rooms for ${guests} guests`);
-  if (rooms == '1' && rooms !== guests) {
-    roomCapacity.setCustomValidity('только для 1 гостя');
-  } else {
-    roomCapacity.setCustomValidity('');
-  }
-  roomCapacity.reportValidity();
-}
+// const checkInputCapacity = (roomNumber, roomCapacity) => {
+//   const rooms = roomNumber.value;
+//   const guests = roomCapacity.value;
+//   console.log(`${rooms} rooms for ${guests} guests`);
+//   if (rooms === '1' && rooms !== guests) {
+//     roomCapacity.setCustomValidity('1 комната только для 1 гостя');
+//   } else if (rooms === '2' && rooms < guests) {
+//     roomCapacity.setCustomValidity('2 комнаты для 1 или 2 гостей');
+//   } else if (rooms === '100' && guests !== 0) {
+//     roomCapacity.setCustomValidity('не для гостей')
+//   } else {
+//     roomCapacity.setCustomValidity('');
+//   }
+//   roomCapacity.reportValidity();
+// };
 
-checkInputCapacity(roomNumber, roomCapacity);
+// checkInputCapacity(roomNumber, roomCapacity);
+
+const checkRooms = (evt) => {
+  const rooms = RoomToCapacity[evt.target.value];
+  console.log(rooms);
+  console.log(capacityOptions);
+
+  capacityOptions.forEach((option) => {
+
+    if (option.selected) {
+      console.log(option);
+      console.log(option.value);
+    }
+
+    rooms.forEach((room) => {
+      // console.log(room);
+    })
+
+  })
+};
+
+// checkRooms();
 
 //Проверка заголовка объявления
 const checkTitleInput = () => {
@@ -125,8 +157,9 @@ const setFormInputHandlers = () => {
   timeOutSelect.addEventListener('input', updateCheckTime);
   titleInput.addEventListener('input', checkTitleInput);
   priceInput.addEventListener('input', checkOfferPrice);
-  roomNumber.addEventListener('input', checkInputCapacity);
-  roomCapacity.addEventListener('input', checkInputCapacity);
+  roomsNumber.addEventListener('input', checkRooms);
+  // roomNumber.addEventListener('input', () => checkInputCapacity(roomNumber, roomCapacity));
+  // roomCapacity.addEventListener('input', () => checkInputCapacity(roomNumber, roomCapacity));
 }
 
 export { setFormInputHandlers, getPageInactive, getPageActive, adFormAddress }
