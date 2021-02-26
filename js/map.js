@@ -43,7 +43,7 @@ const getMap = () => {
 const getPins = (map, offers) => {
   //Главная метка
   const mainPinIcon = L.icon({
-    iconUrl: '../img/main-pin.svg',
+    iconUrl: 'img/main-pin.svg',
     iconSize: [52, 52],
     iconAnchor: [26, 52],
   });
@@ -66,7 +66,7 @@ const getPins = (map, offers) => {
 
   //Обычные метки для объявлений
   const pinIcon = L.icon({
-    iconUrl: '../img/pin.svg',
+    iconUrl: 'img/pin.svg',
     iconSize: [52, 52],
     iconAnchor: [26, 52],
   });
