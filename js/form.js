@@ -1,6 +1,4 @@
 //Константы
-
-
 const TypeToPrice = {
   palace: 10000,
   flat: 1000,
@@ -10,14 +8,14 @@ const TypeToPrice = {
 
 
 //Форма и поля ввода карточки
-const newCardForm = document.querySelector('.ad-form');
-const priceInput = newCardForm.querySelector('#price');
-const typeSelect = newCardForm.querySelector('#type');
-const timeInSelect = newCardForm.querySelector('#timein');
-const timeOutSelect = newCardForm.querySelector('#timeout');
-const adFormAddress = newCardForm.querySelector('#address');
-const adFormHeader = newCardForm.querySelector('.ad-form-header');
-const adFormElements = newCardForm.querySelectorAll('.ad-form__element');
+const adForm = document.querySelector('.ad-form');
+const adPrice = adForm.querySelector('#price');
+const adType = adForm.querySelector('#type');
+const timeIn = adForm.querySelector('#timein');
+const timeOut = adForm.querySelector('#timeout');
+const adFormAddress = adForm.querySelector('#address');
+const adFormHeader = adForm.querySelector('.ad-form-header');
+const adFormElements = adForm.querySelectorAll('.ad-form__element');
 
 //Фильтрация объявлений
 const mapFilters = document.querySelector('.map__filters');
@@ -27,7 +25,7 @@ const mapFeatures = mapFilters.querySelector('.map__features');
 //Делает форму объявления и фильтрацию неактивными
 const getPageInactive = () => {
   //форма объявления
-  newCardForm.classList.add('ad-form--disabled');
+  adForm.classList.add('ad-form--disabled');
   adFormHeader.disabled = true;
   adFormElements.forEach(formElement => formElement.disabled = true);
 
@@ -42,19 +40,19 @@ adFormAddress.readOnly = true;
 
 // Подстановка мин стоимости по типу жилья
 const updateOfferPrice = () => {
-  priceInput.placeholder = TypeToPrice[typeSelect.value];
-  priceInput.min = TypeToPrice[typeSelect.value];
+  adPrice.placeholder = TypeToPrice[adType.value];
+  adPrice.min = TypeToPrice[adType.value];
 };
 
 
 // Подстановка времени выезда по вермени заезда
 const updateCheckTime = (evt) => {
   switch (evt.target) {
-    case timeInSelect:
-      timeOutSelect.value = evt.target.value;
+    case timeIn:
+      timeOut.value = evt.target.value;
       break;
-    case timeOutSelect:
-      timeInSelect.value = evt.target.value;
+    case timeOut:
+      timeIn.value = evt.target.value;
       break;
   }
 };
@@ -62,7 +60,7 @@ const updateCheckTime = (evt) => {
 
 //Делаем страницу активной и подключаем проверки
 const getPageActive = () => {
-  newCardForm.classList.remove('ad-form--disabled');
+  adForm.classList.remove('ad-form--disabled');
   adFormHeader.disabled = false;
   adFormElements.forEach(formElement => formElement.disabled = false);
 
@@ -74,9 +72,9 @@ const getPageActive = () => {
 
 //Обработчики событий
 const setFormInputHandlers = () => {
-  typeSelect.addEventListener('input', updateOfferPrice);
-  timeInSelect.addEventListener('input', updateCheckTime);
-  timeOutSelect.addEventListener('input', updateCheckTime);
+  adType.addEventListener('input', updateOfferPrice);
+  timeIn.addEventListener('input', updateCheckTime);
+  timeOut.addEventListener('input', updateCheckTime);
 }
 
-export { setFormInputHandlers, getPageInactive, getPageActive, adFormAddress, newCardForm, TypeToPrice, priceInput, typeSelect }
+export { setFormInputHandlers, getPageInactive, getPageActive, adFormAddress, adForm, TypeToPrice, adPrice, adType }
