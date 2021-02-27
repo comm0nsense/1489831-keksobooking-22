@@ -1,10 +1,13 @@
 //Константы
-const TypeMinPrice = {
+
+
+const TypeToPrice = {
   palace: 10000,
   flat: 1000,
   house: 5000,
   bungalow: 0,
-}
+};
+
 
 //Форма и поля ввода карточки
 const newCardForm = document.querySelector('.ad-form');
@@ -16,19 +19,33 @@ const adFormAddress = newCardForm.querySelector('#address');
 const adFormHeader = newCardForm.querySelector('.ad-form-header');
 const adFormElements = newCardForm.querySelectorAll('.ad-form__element');
 
-//Делаем координаты недоступными для редактированя
-adFormAddress.readOnly = true;
-
 //Фильтрация объявлений
 const mapFilters = document.querySelector('.map__filters');
 const mapFiltersIds = mapFilters.querySelectorAll('.map__filter');
 const mapFeatures = mapFilters.querySelector('.map__features');
 
+//Делает форму объявления и фильтрацию неактивными
+const getPageInactive = () => {
+  //форма объявления
+  newCardForm.classList.add('ad-form--disabled');
+  adFormHeader.disabled = true;
+  adFormElements.forEach(formElement => formElement.disabled = true);
+
+  //фильтрация объявлений
+  mapFilters.classList.add('map__filters--disabled');
+  mapFiltersIds.forEach(mapFilterId => mapFilterId.disabled = true);
+  mapFeatures.disabled = true;
+};
+
+//Делаем координаты недоступными для редактированя
+adFormAddress.readOnly = true;
+
 // Подстановка мин стоимости по типу жилья
 const updateOfferPrice = () => {
-  priceInput.placeholder = TypeMinPrice[typeSelect.value];
-  priceInput.min = TypeMinPrice[typeSelect.value];
+  priceInput.placeholder = TypeToPrice[typeSelect.value];
+  priceInput.min = TypeToPrice[typeSelect.value];
 };
+
 
 // Подстановка времени выезда по вермени заезда
 const updateCheckTime = (evt) => {
@@ -42,6 +59,19 @@ const updateCheckTime = (evt) => {
   }
 };
 
+
+//Делаем страницу активной и подключаем проверки
+const getPageActive = () => {
+  newCardForm.classList.remove('ad-form--disabled');
+  adFormHeader.disabled = false;
+  adFormElements.forEach(formElement => formElement.disabled = false);
+
+  //фильтрация
+  mapFilters.classList.remove('map__filters--disabled');
+  mapFiltersIds.forEach(mapFilterId => mapFilterId.disabled = false);
+  mapFeatures.disabled = false;
+};
+
 //Обработчики событий
 const setFormInputHandlers = () => {
   typeSelect.addEventListener('input', updateOfferPrice);
@@ -49,44 +79,4 @@ const setFormInputHandlers = () => {
   timeOutSelect.addEventListener('input', updateCheckTime);
 }
 
-//Делает форму объявления и все поля неактивными/активными
-const getAdFormInactive = () => {
-  newCardForm.classList.add('ad-form--disabled');
-  adFormHeader.disabled = true;
-  adFormElements.forEach(formElement => formElement.disabled = true);
-};
-
-const getAdFormActive = () => {
-  newCardForm.classList.remove('ad-form--disabled');
-  adFormHeader.disabled = false;
-  adFormElements.forEach(formElement => formElement.disabled = false);
-};
-
-// Делает фильтрацию объявлений и все поля неактивными/активными
-const getMapFiltersInactive = () => {
-  mapFilters.classList.add('map__filters--disabled');
-  mapFiltersIds.forEach(mapFilterId => mapFilterId.disabled = true);
-  mapFeatures.disabled = true;
-};
-
-const getMapFiltersActive = () => {
-  mapFilters.classList.remove('map__filters--disabled');
-  mapFiltersIds.forEach(mapFilterId => mapFilterId.disabled = false);
-  mapFeatures.disabled = false;
-};
-
-const inactivatePageState = () => {
-  getAdFormInactive();
-  getMapFiltersInactive();
-  // console.log('Page is inactivated');
-};
-
-const activatePageState = () => {
-  getAdFormActive();
-  getMapFiltersActive();
-};
-
-setFormInputHandlers();
-inactivatePageState();
-
-export { setFormInputHandlers, activatePageState, adFormAddress }
+export { setFormInputHandlers, getPageInactive, getPageActive, adFormAddress, newCardForm, TypeToPrice, priceInput, typeSelect }

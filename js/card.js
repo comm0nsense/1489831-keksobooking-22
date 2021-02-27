@@ -1,5 +1,3 @@
-import { createOffers } from './mock.js';
-
 // Создание мапа по типам жилья
 const typeMap = new Map([
   ['palace', 'Дворец' ],
@@ -8,9 +6,6 @@ const typeMap = new Map([
   ['bungalow', 'Бунгало'],
 ]);
 
-// Создание массива тестовых данных и сохраняем одну карточку в переменную
-const offers = createOffers();
-const testOffer = offers[0];
 
 //Контейнер для карточек
 const cardContainer = document.querySelector('#map-canvas');
@@ -70,7 +65,4 @@ const createCard = (card) => {
   return newCard;
 }
 
-createCard(testOffer);
-
-
-export { createCard, offers };
+export { createCard };
