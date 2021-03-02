@@ -1,17 +1,19 @@
-import { createOffers } from  './mock.js';
-import { setFormInputHandlers, getPageInactive} from './form.js';
-import { getMap, getPins } from './map.js';
+import { showAlert } from './util.js';
+import { setFormInputHandlers, getPageInactive } from './form.js';
+import { getMap, getPins, getMainPin } from './map.js';
 import { setFormValidationHandlers } from './validate-form.js';
+import { getData } from './api.js';
 
-// Создание массива тестовых данных
-const offers = createOffers();
 
 //Делаем страницу неактивной
 getPageInactive();
 
 //Рисуем карту и пины
 const map = getMap();
-getPins(map, offers);
+getMainPin(map);
+getData()
+  .then(offers => getPins(map, offers))
+  .catch(err => showAlert(err.message));
 
 //Обработчики формы
 setFormInputHandlers();
