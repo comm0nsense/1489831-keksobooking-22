@@ -1,4 +1,9 @@
+import { postData } from './api.js';
+import { newSuccessModal, newErrorModal, showModal } from './show-modal.js'
+
 //Константы
+const POST_DATA_URL = 'https://22.javascript.pages.academy/skeksobooking';
+
 const TypeToPrice = {
   palace: 10000,
   flat: 1000,
@@ -76,5 +81,19 @@ const setFormInputHandlers = () => {
   timeIn.addEventListener('input', updateCheckTime);
   timeOut.addEventListener('input', updateCheckTime);
 }
+
+//Обработчик события submit
+const submitAdForm = () => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const formData = new FormData(evt.target);
+    postData(POST_DATA_URL, formData)
+      .then( () => showModal(newSuccessModal))
+      .catch( () => showModal(newErrorModal));
+  });
+}
+
+submitAdForm();
 
 export { setFormInputHandlers, getPageInactive, getPageActive, adFormAddress, adForm, TypeToPrice, adPrice, adType }

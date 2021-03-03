@@ -8,7 +8,7 @@ const typeMap = new Map([
 
 
 //Контейнер для карточек
-const cardContainer = document.querySelector('#map-canvas');
+// const cardContainer = document.querySelector('#map-canvas');
 
 //Шаблон карточки
 const cardTemplate = document.querySelector('#card').content;
@@ -60,7 +60,7 @@ const createCard = (card) => {
 
   newCard.querySelector('.popup__avatar').src = card.author.avatar;
 
-  cardContainer.appendChild(newCard);
+  // cardContainer.appendChild(newCard);
 
   return newCard;
 }

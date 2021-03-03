@@ -31,7 +31,7 @@ const shuffleArray = (array) => {
   }
 
   return array;
-}
+};
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
@@ -52,6 +52,10 @@ const showAlert = (message) => {
   setTimeout(() => {
     alertContainer.remove();
   }, ALERT_SHOW_TIME);
+};
+
+const isEscEvent = (evt) => {
+  return evt.key === ('Escape' || 'Esc');
 }
 
-export {getRandomInt, getRandomFloat, shuffleArray, showAlert};
+export {getRandomInt, getRandomFloat, shuffleArray, showAlert, isEscEvent};

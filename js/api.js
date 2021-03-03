@@ -1,7 +1,6 @@
-const GET_DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
-
-const getData = async () => {
-  const response = await fetch(GET_DATA_URL);
+// Полчучаем данные об объявлениях с сервера
+const getData = async (url) => {
+  const response = await fetch(url);
 
   if (response.ok) {
     const data = await response.json();
@@ -12,4 +11,18 @@ const getData = async () => {
 
 };
 
-export { getData }
+//Отпралвение данные из формы на сервер
+const postData = async (url, body) => {
+  const response = await fetch(
+    url,
+    {
+      method: 'POST',
+      body,
+    })
+
+  if (!response.ok) {
+    throw new Error('Rejected: Не удалось отправить данные');
+  }
+};
+
+export { getData, postData }
