@@ -3,7 +3,6 @@
 import { getPageActive, adFormAddress } from './form.js';
 import { createCard } from './card.js';
 import { COORDINATE_DECIMALS_COUNT } from './mock.js';
-// import { getData } from 'api.js';
 
 const MAP_SCALE = 10;
 
@@ -39,12 +38,6 @@ const getMap = () => {
   return map;
 };
 
-// const openstreetMap = getMap;
-// const map = getMap();
-
-//Рисуем пины
-// const getPins = (map, offers) => {
-
 //Рисуем главную метку
 const getMainPin = (map) => {
   //Главная метка
@@ -73,7 +66,6 @@ const getMainPin = (map) => {
   return marker;
 };
 
-// const mainPin = getMainPin;
 
 //Рисуем обычные метки для объявлений
 const getPins = (map, offers) => {
@@ -105,6 +97,5 @@ const getPins = (map, offers) => {
   });
 }
 
-// }
 
 export { getPins, getMap, getMainPin }
