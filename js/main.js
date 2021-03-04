@@ -1,6 +1,6 @@
 import { showAlert } from './util.js';
 import { setFormInputHandlers, getPageInactive, resetAdFormButton, adForm, mapFilters } from './form.js';
-import { getPins, getMainPin, getMap } from './map.js';
+import { getPins, getMainPin, getMap, TokyoCenterCoordinates, MAP_SCALE } from './map.js';
 import { setFormValidationHandlers } from './validate-form.js';
 import { getData, postData } from './api.js';
 import { newSuccessModal, newErrorModal, showModal } from './show-modal.js';
@@ -30,6 +30,11 @@ const setDefaults = () => {
   adForm.reset();
   mapFilters.reset();
   mainPin.setLatLng([35.6804, 139.759]);
+  map
+    .setView({
+      lat: TokyoCenterCoordinates.X,
+      lng: TokyoCenterCoordinates.Y,
+    }, MAP_SCALE)
 }
 
 //Сброс страницы до состояния по умолчанию
@@ -48,12 +53,10 @@ const submitAdForm = () => {
     postData(POST_DATA_URL, formData)
       .then(() => {
         showModal(newSuccessModal);
-        // console.log('Данные успешно отправлены');
         setDefaults();
       })
       .catch(() => {
         showModal(newErrorModal)
-        // console.log('Ошибка при отправке данных')
       });
   });
 }

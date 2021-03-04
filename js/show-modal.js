@@ -1,4 +1,3 @@
-import { isEscEvent } from './util.js';
 //Контейнер для сообщения
 const modalContainer = document.querySelector('main');
 
@@ -21,7 +20,7 @@ const newErrorModal = errorModalTemplate.cloneNode(true);
 const showModal = (modal) => {
   modalContainer.append(modal);
   modal.addEventListener('click', onClick(modal));
-  // window.addEventListener('keydown', onModalEscKeydown(modal) );
+  window.addEventListener('keydown', onModalEscKeydown(modal) );
 };
 
 
@@ -36,18 +35,17 @@ const onClick = (modal) => {
 const onModalEscKeydown = (modal) => {
   return (evt) => {
 
-    if (isEscEvent) {
-      evt.preventDefault();
+    if (evt.key === ('Escape' || 'Esc')) {
       closeModal(modal);
-
     }
+
   }
 };
 
 
 const closeModal = (modal) => {
   modal.remove();
-  // window.removeEventListener('keydown', onModalEscKeydown(modal));
+  window.removeEventListener('keydown', onModalEscKeydown(modal));
   modal.removeEventListener('click', onClick(modal));
 };
 

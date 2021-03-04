@@ -98,4 +98,4 @@ const getPins = (map, offers) => {
 }
 
 
-export { getPins, getMap, getMainPin }
+export { getPins, getMap, getMainPin, TokyoCenterCoordinates, MAP_SCALE }
