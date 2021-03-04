@@ -1,11 +1,16 @@
 import { adForm, TypeToPrice, adPrice, adType } from './form.js';
 
+const PRICE_PER_NIGHT_MAX = 1000000;
+
 const TitleLength = {
   MIN: 30,
-  MAX: 99,
+  MAX: 100,
 }
 
-const PRICE_PER_NIGHT_MAX = 1000000;
+const NotForGuestType = {
+  ROOM: 100,
+  GUEST: 0,
+}
 
 const adTitle = adForm.querySelector('#title');
 const roomNumber = adForm.querySelector('#room_number');
@@ -14,7 +19,7 @@ const capacity = adForm.querySelector('#capacity');
 
 //Проверка соответствия комнаты - гости
 const roomToGuest = (rooms, guests) => {
-  if(rooms === '100' && guests !== '0') {
+  if(rooms === NotForGuestType.ROOM && guests !== NotForGuestType.GUEST) {
     capacity.setCustomValidity('Не для гостей');
   } else if (guests === '0' && rooms !== '100') {
     capacity.setCustomValidity('Не для гостей');
@@ -64,9 +69,9 @@ const checkTitleInput = () => {
   const titleLength = adTitle.value.length;
 
   if (titleLength < TitleLength.MIN) {
-    adTitle.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
-  } else if (titleLength > TitleLength.MAX) {
-    adTitle.setCustomValidity('Заголовок не должен превышать 100 символов');
+    adTitle.setCustomValidity(`Заголовок должен состоять минимум из ${TitleLength.MIN} символов`);
+  } else if (titleLength >= TitleLength.MAX) {
+    adTitle.setCustomValidity(`Заголовок не должен превышать ${TitleLength.MAX} символов`);
   } else {
     adTitle.setCustomValidity('');
   }

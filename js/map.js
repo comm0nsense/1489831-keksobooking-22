@@ -2,9 +2,13 @@
 
 import { getPageActive, adFormAddress } from './form.js';
 import { createCard } from './card.js';
-import { COORDINATE_DECIMALS_COUNT } from './mock.js';
 
+const COORDINATE_DECIMALS_COUNT = 5;
 const MAP_SCALE = 10;
+const OPENSTREETMAP_URL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const OPENSTREETMAP_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+const MAIN_PIN_ICON_URL = 'img/main-pin.svg';
+const PIN_ICON_URL = 'img/pin.svg';
 
 const TokyoCenterCoordinates = {
   X: 35.6804,
@@ -29,9 +33,9 @@ const getMap = () => {
     }, MAP_SCALE);
 
   L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    OPENSTREETMAP_URL,
     {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      attribution: OPENSTREETMAP_COPYRIGHT,
     },
   ).addTo(map);
 
@@ -42,7 +46,7 @@ const getMap = () => {
 const getMainPin = (map) => {
   //Главная метка
   const mainPinIcon = L.icon({
-    iconUrl: 'img/main-pin.svg',
+    iconUrl: MAIN_PIN_ICON_URL,
     iconSize: [52, 52],
     iconAnchor: [26, 52],
   });
@@ -70,7 +74,7 @@ const getMainPin = (map) => {
 //Рисуем обычные метки для объявлений
 const getPins = (map, offers) => {
   const pinIcon = L.icon({
-    iconUrl: 'img/pin.svg',
+    iconUrl: PIN_ICON_URL,
     iconSize: [52, 52],
     iconAnchor: [26, 52],
   });
