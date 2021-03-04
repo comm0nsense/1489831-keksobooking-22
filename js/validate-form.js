@@ -1,21 +1,27 @@
-import { newCardForm, TypeToPrice, priceInput, typeSelect } from './form.js';
+import { adForm, TypeToPrice, adPrice, adType } from './form.js';
 
-const TITLE_MIN_LENGTH = 30;
-const TITLE_MAX_LENGTH = 99;
 const PRICE_PER_NIGHT_MAX = 1000000;
 
-const adTitle = newCardForm.querySelector('#title');
-const roomNumber = newCardForm.querySelector('#room_number');
-const roomOptions = roomNumber.querySelectorAll('option');
-const capacity = newCardForm.querySelector('#capacity');
-const capacityOptions = capacity.querySelectorAll('option');
+const TitleLength = {
+  MIN: 30,
+  MAX: 100,
+}
+
+const NotForGuestType = {
+  ROOM: 100,
+  GUEST: 0,
+}
+
+const adTitle = adForm.querySelector('#title');
+const roomNumber = adForm.querySelector('#room_number');
+const capacity = adForm.querySelector('#capacity');
 
 
+//Проверка соответствия комнаты - гости
 const roomToGuest = (rooms, guests) => {
-
-  if(rooms === '100' && guests !== '0') {
+  if(rooms === NotForGuestType.ROOM && guests !== NotForGuestType.GUEST) {
     capacity.setCustomValidity('Не для гостей');
-  } else if (guests === '0' && rooms !== '100') {
+  } else if (guests === NotForGuestType.GUEST && rooms !== NotForGuestType.ROOM) {
     capacity.setCustomValidity('Не для гостей');
   } else if (rooms < guests) {
     capacity.setCustomValidity(`Гостей (${guests}) больше чем свободных комнат (${rooms})`);
@@ -25,6 +31,10 @@ const roomToGuest = (rooms, guests) => {
 
   capacity.reportValidity();
 };
+
+//test
+const capacityOptions = capacity.querySelectorAll('option');
+const roomOptions = roomNumber.querySelectorAll('option');
 
 const getOptionSelected = (options) => {
   let result = 0;
@@ -37,27 +47,31 @@ const getOptionSelected = (options) => {
 
   return result;
 };
+//end of test
 
 const checkRooms = (evt) => {
   const rooms = evt.target.value;
+  // const guests = evt.target.options.selectedIndex;
   const guests = getOptionSelected(capacityOptions);
   roomToGuest(rooms, guests);
 };
 
 const checkGuests = (evt) => {
   const guests = evt.target.value;
+  // const rooms = evt.target.options.selectedIndex;
   const rooms = getOptionSelected(roomOptions);
   roomToGuest(rooms, guests);
 };
+
 
 //Проверка заголовка объявления
 const checkTitleInput = () => {
   const titleLength = adTitle.value.length;
 
-  if (titleLength < TITLE_MIN_LENGTH) {
-    adTitle.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
-  } else if (titleLength > TITLE_MAX_LENGTH) {
-    adTitle.setCustomValidity('Заголовок не должен превышать 100 символов');
+  if (titleLength < TitleLength.MIN) {
+    adTitle.setCustomValidity(`Заголовок должен состоять минимум из ${TitleLength.MIN} символов`);
+  } else if (titleLength >= TitleLength.MAX) {
+    adTitle.setCustomValidity(`Заголовок не должен превышать ${TitleLength.MAX} символов`);
   } else {
     adTitle.setCustomValidity('');
   }
@@ -67,26 +81,26 @@ const checkTitleInput = () => {
 
 //Проверка цены предложения
 const checkOfferPrice = () => {
-  const price = priceInput.value;
-  const minPrice = TypeToPrice[typeSelect.value];
+  const price = adPrice.value;
+  const minPrice = TypeToPrice[adType.value];
 
   if (price < minPrice) {
-    priceInput.setCustomValidity(`Стоимость не должна быть ниже ${TypeToPrice[typeSelect.value]}`);
+    adPrice.setCustomValidity(`Стоимость не должна быть ниже ${TypeToPrice[adType.value]}`);
   } else if (price > PRICE_PER_NIGHT_MAX) {
-    priceInput.setCustomValidity(`Стоиомость не должна превышать ${PRICE_PER_NIGHT_MAX}`);
+    adPrice.setCustomValidity(`Стоиомость не должна превышать ${PRICE_PER_NIGHT_MAX}`);
   } else {
-    priceInput.setCustomValidity('');
+    adPrice.setCustomValidity('');
   }
-  priceInput.reportValidity();
+  adPrice.reportValidity();
 };
 
 
 //Обработчики событий
 const setFormValidationHandlers = () => {
   adTitle.addEventListener('input', checkTitleInput);
-  priceInput.addEventListener('input', checkOfferPrice);
+  adPrice.addEventListener('input', checkOfferPrice);
   capacity.addEventListener('input', checkGuests);
   roomNumber.addEventListener('input', checkRooms);
 };
 
-setFormValidationHandlers();
+export { setFormValidationHandlers }
