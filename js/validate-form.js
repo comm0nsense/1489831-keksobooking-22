@@ -21,7 +21,7 @@ const capacity = adForm.querySelector('#capacity');
 const roomToGuest = (rooms, guests) => {
   if(rooms === NotForGuestType.ROOM && guests !== NotForGuestType.GUEST) {
     capacity.setCustomValidity('Не для гостей');
-  } else if (guests === '0' && rooms !== '100') {
+  } else if (guests === NotForGuestType.GUEST && rooms !== NotForGuestType.ROOM) {
     capacity.setCustomValidity('Не для гостей');
   } else if (rooms < guests) {
     capacity.setCustomValidity(`Гостей (${guests}) больше чем свободных комнат (${rooms})`);
