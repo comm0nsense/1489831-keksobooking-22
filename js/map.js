@@ -9,6 +9,8 @@ const OPENSTREETMAP_URL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const OPENSTREETMAP_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 const MAIN_PIN_ICON_URL = 'img/main-pin.svg';
 const PIN_ICON_URL = 'img/pin.svg';
+const PIN_WIDTH = 52;
+const PIN_HEIGHT = 52;
 
 const TokyoCenterCoordinates = {
   X: 35.6804,
@@ -28,8 +30,8 @@ const getMap = () => {
       adFormAddress.value = `${DefaultCoordinates.X}, ${DefaultCoordinates.Y}`
     })
     .setView({
-      lat: TokyoCenterCoordinates.X,
-      lng: TokyoCenterCoordinates.Y,
+      lat: DefaultCoordinates.X,
+      lng: DefaultCoordinates.Y,
     }, MAP_SCALE);
 
   L.tileLayer(
@@ -47,14 +49,14 @@ const getMainPin = (map) => {
   //Главная метка
   const mainPinIcon = L.icon({
     iconUrl: MAIN_PIN_ICON_URL,
-    iconSize: [52, 52],
-    iconAnchor: [26, 52],
+    iconSize: [PIN_WIDTH, PIN_HEIGHT],
+    iconAnchor: [PIN_WIDTH / 2 , PIN_HEIGHT],
   });
 
   const marker = L.marker(
     {
-      lat: 35.6804,
-      lng: 139.759,
+      lat: DefaultCoordinates.X,
+      lng: DefaultCoordinates.Y,
     },
     {
       draggable: true,
@@ -75,8 +77,8 @@ const getMainPin = (map) => {
 const getPins = (map, offers) => {
   const pinIcon = L.icon({
     iconUrl: PIN_ICON_URL,
-    iconSize: [52, 52],
-    iconAnchor: [26, 52],
+    iconSize: [PIN_WIDTH, PIN_HEIGHT],
+    iconAnchor: [PIN_WIDTH / 2 , PIN_HEIGHT],
   });
 
   offers.forEach((offer) => {
@@ -102,4 +104,4 @@ const getPins = (map, offers) => {
 }
 
 
-export { getPins, getMap, getMainPin, TokyoCenterCoordinates, MAP_SCALE }
+export { getPins, getMap, getMainPin, DefaultCoordinates, MAP_SCALE }

@@ -1,6 +1,6 @@
 import { showAlert } from './util.js';
 import { setFormInputHandlers, getPageInactive, resetAdFormButton, adForm, mapFilters } from './form.js';
-import { getPins, getMainPin, getMap, TokyoCenterCoordinates, MAP_SCALE } from './map.js';
+import { getPins, getMainPin, getMap, DefaultCoordinates, MAP_SCALE } from './map.js';
 import { setFormValidationHandlers } from './validate-form.js';
 import { getData, postData } from './api.js';
 import { newSuccessModal, newErrorModal, showModal } from './show-modal.js';
@@ -32,8 +32,8 @@ const setDefaults = () => {
   mainPin.setLatLng([35.6804, 139.759]);
   map
     .setView({
-      lat: TokyoCenterCoordinates.X,
-      lng: TokyoCenterCoordinates.Y,
+      lat: DefaultCoordinates.X,
+      lng: DefaultCoordinates.Y,
     }, MAP_SCALE)
 }
 
