@@ -39,6 +39,8 @@ const getMap = () => {
   return map;
 };
 
+// const openstreetMap = getMap;
+// const map = getMap();
 
 //Рисуем пины
 // const getPins = (map, offers) => {
@@ -67,7 +69,11 @@ const getMainPin = (map) => {
   marker.on('move', (evt) => {
     adFormAddress.value = `${evt.target.getLatLng().lat.toFixed(COORDINATE_DECIMALS_COUNT)}, ${evt.target.getLatLng().lng.toFixed(COORDINATE_DECIMALS_COUNT)}`;
   });
+
+  return marker;
 };
+
+// const mainPin = getMainPin;
 
 //Рисуем обычные метки для объявлений
 const getPins = (map, offers) => {
@@ -101,4 +107,4 @@ const getPins = (map, offers) => {
 
 // }
 
-export { getMap, getMainPin, getPins }
+export { getPins, getMap, getMainPin }

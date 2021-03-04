@@ -1,8 +1,4 @@
-import { postData } from './api.js';
-import { newSuccessModal, newErrorModal, showModal } from './show-modal.js'
-
 //Константы
-const POST_DATA_URL = 'https://22.javascript.pages.academy/skeksobooking';
 
 const TypeToPrice = {
   palace: 10000,
@@ -26,6 +22,9 @@ const adFormElements = adForm.querySelectorAll('.ad-form__element');
 const mapFilters = document.querySelector('.map__filters');
 const mapFiltersIds = mapFilters.querySelectorAll('.map__filter');
 const mapFeatures = mapFilters.querySelector('.map__features');
+
+//Кнопка сброса формы
+const resetAdFormButton = adForm.querySelector('.ad-form__reset');
 
 //Делает форму объявления и фильтрацию неактивными
 const getPageInactive = () => {
@@ -82,18 +81,15 @@ const setFormInputHandlers = () => {
   timeOut.addEventListener('input', updateCheckTime);
 }
 
-//Обработчик события submit
-const submitAdForm = () => {
-  adForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-
-    const formData = new FormData(evt.target);
-    postData(POST_DATA_URL, formData)
-      .then( () => showModal(newSuccessModal))
-      .catch( () => showModal(newErrorModal));
-  });
+export {
+  setFormInputHandlers,
+  getPageInactive,
+  getPageActive,
+  adFormAddress,
+  adForm,
+  TypeToPrice,
+  adPrice,
+  adType,
+  resetAdFormButton,
+  mapFilters
 }
-
-submitAdForm();
-
-export { setFormInputHandlers, getPageInactive, getPageActive, adFormAddress, adForm, TypeToPrice, adPrice, adType }
