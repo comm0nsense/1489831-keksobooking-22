@@ -27,15 +27,34 @@ const roomToGuest = (rooms, guests) => {
   capacity.reportValidity();
 };
 
+//test
+const capacityOptions = capacity.querySelectorAll('option');
+const roomOptions = roomNumber.querySelectorAll('option');
+
+const getOptionSelected = (options) => {
+  let result = 0;
+
+  options.forEach((option) => {
+    if (option.selected) {
+      result = option.value;
+    }
+  })
+
+  return result;
+};
+//end of test
+
 const checkRooms = (evt) => {
   const rooms = evt.target.value;
-  const guests = evt.target.options.selectedIndex;
+  // const guests = evt.target.options.selectedIndex;
+  const guests = getOptionSelected(capacityOptions);
   roomToGuest(rooms, guests);
 };
 
 const checkGuests = (evt) => {
   const guests = evt.target.value;
-  const rooms = evt.target.options.selectedIndex;
+  // const rooms = evt.target.options.selectedIndex;
+  const rooms = getOptionSelected(roomOptions);
   roomToGuest(rooms, guests);
 };
 

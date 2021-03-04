@@ -19,7 +19,8 @@ const newErrorModal = errorModalTemplate.cloneNode(true);
 
 
 const showModal = (modal) => {
-  modalContainer.append(modal)
+  modalContainer.append(modal);
+  // modal.style.zIndex = '1000';
   modal.addEventListener('click', onClick(modal));
   window.addEventListener('keydown', onModalEscKeydown(modal) );
 };
@@ -46,6 +47,7 @@ const onModalEscKeydown = (modal) => {
 
 const closeModal = (modal) => {
   modal.remove();
+  // modal.style.zIndex = '1000';
   window.removeEventListener('keydown', onModalEscKeydown(modal));
   modal.removeEventListener('click', onClick(modal));
 };
