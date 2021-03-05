@@ -30,11 +30,10 @@ const setDefaults = () => {
   adForm.reset();
   mapFilters.reset();
   mainPin.setLatLng([35.6804, 139.759]);
-  map
-    .setView({
-      lat: DefaultCoordinates.X,
-      lng: DefaultCoordinates.Y,
-    }, MAP_SCALE)
+  map.setView({
+    lat: DefaultCoordinates.X,
+    lng: DefaultCoordinates.Y,
+  }, MAP_SCALE)
 }
 
 //Сброс страницы до состояния по умолчанию

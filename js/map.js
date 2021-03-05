@@ -5,22 +5,28 @@ import { createCard } from './card.js';
 
 const COORDINATE_DECIMALS_COUNT = 5;
 const MAP_SCALE = 10;
-const OPENSTREETMAP_URL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-const OPENSTREETMAP_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-const MAIN_PIN_ICON_URL = 'img/main-pin.svg';
-const PIN_ICON_URL = 'img/pin.svg';
-const PIN_WIDTH = 52;
-const PIN_HEIGHT = 52;
+
+const OpenStreetMapDetails = {
+  URL: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  COPYRIGHT: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+};
+
+const PinParameters = {
+  MAIN_ICON_URL: 'img/main-pin.svg',
+  PIN_ICON_URL: 'img/pin.svg',
+  WIDTH: 52,
+  HEIGHT: 52,
+};
 
 const TokyoCenterCoordinates = {
   X: 35.6804,
   Y: 139.759,
-}
+};
 
 const DefaultCoordinates = {
   X: TokyoCenterCoordinates.X.toFixed(COORDINATE_DECIMALS_COUNT),
   Y: TokyoCenterCoordinates.Y.toFixed(COORDINATE_DECIMALS_COUNT),
-}
+};
 
 //Рисуем карту
 const getMap = () => {
@@ -35,9 +41,9 @@ const getMap = () => {
     }, MAP_SCALE);
 
   L.tileLayer(
-    OPENSTREETMAP_URL,
+    OpenStreetMapDetails.URL,
     {
-      attribution: OPENSTREETMAP_COPYRIGHT,
+      attribution: OpenStreetMapDetails.COPYRIGHT,
     },
   ).addTo(map);
 
@@ -48,9 +54,9 @@ const getMap = () => {
 const getMainPin = (map) => {
   //Главная метка
   const mainPinIcon = L.icon({
-    iconUrl: MAIN_PIN_ICON_URL,
-    iconSize: [PIN_WIDTH, PIN_HEIGHT],
-    iconAnchor: [PIN_WIDTH / 2 , PIN_HEIGHT],
+    iconUrl: PinParameters.MAIN_ICON_URL,
+    iconSize: [PinParameters.WIDTH, PinParameters.HEIGHT],
+    iconAnchor: [PinParameters.WIDTH / 2 , PinParameters.HEIGHT],
   });
 
   const marker = L.marker(
@@ -76,9 +82,9 @@ const getMainPin = (map) => {
 //Рисуем обычные метки для объявлений
 const getPins = (map, offers) => {
   const pinIcon = L.icon({
-    iconUrl: PIN_ICON_URL,
-    iconSize: [PIN_WIDTH, PIN_HEIGHT],
-    iconAnchor: [PIN_WIDTH / 2 , PIN_HEIGHT],
+    iconUrl: PinParameters.PIN_ICON_URL,
+    iconSize: [PinParameters.WIDTH, PinParameters.HEIGHT],
+    iconAnchor: [PinParameters.WIDTH / 2 , PinParameters.HEIGHT],
   });
 
   offers.forEach((offer) => {

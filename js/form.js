@@ -51,12 +51,13 @@ const updateOfferPrice = () => {
 
 // Подстановка времени выезда по вермени заезда
 const updateCheckTime = (evt) => {
+  const timeSelected = evt.target.value;
   switch (evt.target) {
     case timeIn:
-      timeOut.value = evt.target.value;
+      timeOut.value = timeSelected;
       break;
     case timeOut:
-      timeIn.value = evt.target.value;
+      timeIn.value = timeSelected;
       break;
   }
 };
@@ -76,9 +77,9 @@ const getPageActive = () => {
 
 //Обработчики событий
 const setFormInputHandlers = () => {
-  adType.addEventListener('input', updateOfferPrice);
-  timeIn.addEventListener('input', updateCheckTime);
-  timeOut.addEventListener('input', updateCheckTime);
+  adForm.addEventListener('input', updateOfferPrice);
+  adForm.addEventListener('input', updateCheckTime);
+  adForm.addEventListener('input', updateCheckTime);
 }
 
 export {
