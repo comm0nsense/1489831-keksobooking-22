@@ -56,7 +56,7 @@ const getMainPin = (map) => {
   const mainPinIcon = L.icon({
     iconUrl: PinParameters.MAIN_ICON_URL,
     iconSize: [PinParameters.WIDTH, PinParameters.HEIGHT],
-    iconAnchor: [PinParameters.WIDTH / 2 , PinParameters.HEIGHT],
+    iconAnchor: [PinParameters.WIDTH / 2, PinParameters.HEIGHT],
   });
 
   const marker = L.marker(
@@ -84,8 +84,10 @@ const getPins = (map, offers) => {
   const pinIcon = L.icon({
     iconUrl: PinParameters.PIN_ICON_URL,
     iconSize: [PinParameters.WIDTH, PinParameters.HEIGHT],
-    iconAnchor: [PinParameters.WIDTH / 2 , PinParameters.HEIGHT],
+    iconAnchor: [PinParameters.WIDTH / 2, PinParameters.HEIGHT],
   });
+
+  const markers = [];
 
   offers.forEach((offer) => {
     const marker = L.marker(
@@ -106,8 +108,16 @@ const getPins = (map, offers) => {
           keepInView: true,
         },
       );
+    markers.push(marker);
   });
-}
+  return markers;
+};
 
+//Удаляем пины
+const removePins = (map, markers) => {
+  markers.forEach((marker) => {
+    map.removeLayer(marker);
+  })
+};
 
-export { getPins, getMap, getMainPin, DefaultCoordinates, MAP_SCALE }
+export { getPins, getMap, getMainPin, DefaultCoordinates, MAP_SCALE, removePins }

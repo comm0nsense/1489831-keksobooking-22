@@ -1,9 +1,11 @@
 import { showAlert } from './util.js';
 import { setFormInputHandlers, getPageInactive, resetAdFormButton, adForm, mapFilters } from './form.js';
-import { getPins, getMainPin, getMap, DefaultCoordinates, MAP_SCALE } from './map.js';
+import { getPins, getMainPin, getMap, DefaultCoordinates, MAP_SCALE, removePins } from './map.js';
 import { setFormValidationHandlers } from './validate-form.js';
 import { getData, postData } from './api.js';
 import { newSuccessModal, newErrorModal, showModal } from './show-modal.js';
+// import { sortAds } from './filter.js';
+// import './test.js'
 
 
 const GET_DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
@@ -16,10 +18,40 @@ getPageInactive();
 const map = getMap();
 const mainPin = getMainPin(map);
 
+
 //Загружаем данные по объявлениям
+
 getData(GET_DATA_URL)
-  .then(offers => getPins(map, offers))
+  .then(ads => {
+    getPins(map, ads);
+    console.log('рисуем пины, возвращаем массив объявлений полученный с сервера');
+    console.log(ads);
+    return ads
+  })
+  // .then(() => {console.log('удаляем пины по клику')})
+  // если раскомментить этот then, то ads не попадут в следующий then
+  .then((ads) => {
+    // здесь по изменению фильтра получаем по какому типа жилья получать массив
+    // из которого потом будут рисоваться пины
+    // как сюда передать как пользователь изменил фильтр?
+    console.log(ads);
+    const adsCopy = ads.slice();
+    const typeArray = []
+    adsCopy.forEach(ad => {
+      console.log(ad.offer.type);
+      if (ad.offer.type === 'house') {
+        typeArray.push(ad);
+      }
+    });
+    console.log(typeArray);
+
+    return typeArray;
+  })
+  .then(filteredArray => {
+    console.log('рисуем пины по данным отсортированного архива', filteredArray)
+  })
   .catch(err => showAlert(err.message));
+
 
 //Обработчики формы
 setFormInputHandlers();
