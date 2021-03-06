@@ -18,20 +18,19 @@ getPageInactive();
 const map = getMap();
 const mainPin = getMainPin(map);
 
-//Загружаем данные по объявлениям
-
+// Загружаем данные по объявлениям
 getData(GET_DATA_URL)
   .then(ads => {
     const pins = getPins(map, ads);
     console.log('рисуем пины, возвращаем массив объявлений полученный с сервера');
     console.log(ads);
-    // return ads
-    return pins
+    return ads
+    // return pins
   })
-  .then(pins => {
-    console.log('теперь удаляем пины');
-    removePins(map, pins);
-  })
+  // .then(pins => {
+  //   console.log('теперь удаляем пины');
+  //   removePins(map, pins);
+  // })
   // если в первом then сделать ретурн ads и следующий then который удаляет пины
   //закомментировать, то будет работать код ниже
   .then((ads) => {
