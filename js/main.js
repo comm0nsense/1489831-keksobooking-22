@@ -18,18 +18,22 @@ getPageInactive();
 const map = getMap();
 const mainPin = getMainPin(map);
 
-
 //Загружаем данные по объявлениям
 
 getData(GET_DATA_URL)
   .then(ads => {
-    getPins(map, ads);
+    const pins = getPins(map, ads);
     console.log('рисуем пины, возвращаем массив объявлений полученный с сервера');
     console.log(ads);
-    return ads
+    // return ads
+    return pins
   })
-  // .then(() => {console.log('удаляем пины по клику')})
-  // если раскомментить этот then, то ads не попадут в следующий then
+  .then(pins => {
+    console.log('теперь удаляем пины');
+    removePins(map, pins);
+  })
+  // если в первом then сделать ретурн ads и следующий then который удаляет пины
+  //закомментировать, то будет работать код ниже
   .then((ads) => {
     // здесь по изменению фильтра получаем по какому типа жилья получать массив
     // из которого потом будут рисоваться пины
