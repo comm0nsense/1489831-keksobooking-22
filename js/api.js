@@ -8,8 +8,8 @@ const getData = async (url) => {
   } else {
     throw new Error('Не удается зарузить данные. Перезагрузите страницу.');
   }
-};
 
+};
 
 //Отпралвение данные из формы на сервер
 const postData = async (url, body) => {

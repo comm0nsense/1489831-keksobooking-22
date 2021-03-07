@@ -18,21 +18,36 @@ const newErrorModal = errorModalTemplate.cloneNode(true);
 
 
 const showModal = (modal) => {
-  const closeModal = () => {
-    modal.remove();
-    document.removeEventListener('keydown', onModalEscKeydown);
-    modal.removeEventListener('click', closeModal);
-  };
-
-  const onModalEscKeydown = (evt) => {
-    if (evt.key === ('Escape' || 'Esc')) {
-      closeModal();
-    }
-  };
-
   modalContainer.append(modal);
-  modal.addEventListener('click', closeModal);
-  window.addEventListener('keydown', onModalEscKeydown);
+  modal.addEventListener('click', onClick(modal));
+  window.addEventListener('keydown', onModalEscKeydown(modal) );
 };
 
-export { newSuccessModal, newErrorModal, showModal }
+
+const onClick = (modal) => {
+  return (evt) => {
+    evt.preventDefault();
+    closeModal(modal);
+  }
+};
+
+
+const onModalEscKeydown = (modal) => {
+  return (evt) => {
+
+    if (evt.key === ('Escape' || 'Esc')) {
+      closeModal(modal);
+    }
+
+  }
+};
+
+
+const closeModal = (modal) => {
+  modal.remove();
+  window.removeEventListener('keydown', onModalEscKeydown(modal));
+  modal.removeEventListener('click', onClick(modal));
+};
+
+
+export { newSuccessModal, newErrorModal, showModal };

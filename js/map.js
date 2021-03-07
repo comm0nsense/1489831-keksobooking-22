@@ -1,6 +1,6 @@
 /* global L:readonly */
 
-import { adFormAddress, getFormActive } from './form.js';
+import { getPageActive, adFormAddress } from './form.js';
 import { createCard } from './card.js';
 
 const COORDINATE_DECIMALS_COUNT = 5;
@@ -32,7 +32,7 @@ const DefaultCoordinates = {
 const getMap = () => {
   const map = L.map('map-canvas')
     .on('load', () => {
-      getFormActive();
+      getPageActive();
       adFormAddress.value = `${DefaultCoordinates.X}, ${DefaultCoordinates.Y}`
     })
     .setView({
@@ -50,14 +50,13 @@ const getMap = () => {
   return map;
 };
 
-
 //Рисуем главную метку
 const getMainPin = (map) => {
   //Главная метка
   const mainPinIcon = L.icon({
     iconUrl: PinParameters.MAIN_ICON_URL,
     iconSize: [PinParameters.WIDTH, PinParameters.HEIGHT],
-    iconAnchor: [PinParameters.WIDTH / 2, PinParameters.HEIGHT],
+    iconAnchor: [PinParameters.WIDTH / 2 , PinParameters.HEIGHT],
   });
 
   const marker = L.marker(
@@ -80,16 +79,13 @@ const getMainPin = (map) => {
 };
 
 
-
 //Рисуем обычные метки для объявлений
 const getPins = (map, offers) => {
   const pinIcon = L.icon({
     iconUrl: PinParameters.PIN_ICON_URL,
     iconSize: [PinParameters.WIDTH, PinParameters.HEIGHT],
-    iconAnchor: [PinParameters.WIDTH / 2, PinParameters.HEIGHT],
+    iconAnchor: [PinParameters.WIDTH / 2 , PinParameters.HEIGHT],
   });
-
-  const markers = [];
 
   offers.forEach((offer) => {
     const marker = L.marker(
@@ -110,17 +106,8 @@ const getPins = (map, offers) => {
           keepInView: true,
         },
       );
-    markers.push(marker);
   });
-  return markers;
-};
-
-//Удаляем пины
-const removePins = (map, markers) => {
-  markers.forEach((marker) => {
-    map.removeLayer(marker);
-  })
-};
+}
 
 
-export { getPins, getMap, getMainPin, DefaultCoordinates, MAP_SCALE, removePins}
+export { getPins, getMap, getMainPin, DefaultCoordinates, MAP_SCALE }
