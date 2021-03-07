@@ -1,64 +1,79 @@
+import { createMarkers, getMap, removeMarkers,
+  DefaultCoordinates, MAP_SCALE } from './map.js';
+import { disableForm, submitAdForm, adForm, resetAdFormButton } from './form.js';
+import { setFormHandlers } from './validate-form.js';
+import { getData } from './api.js';
 import { showAlert } from './util.js';
-import { setFormInputHandlers, getPageInactive, resetAdFormButton, adForm, mapFilters } from './form.js';
-import { getPins, getMainPin, getMap, DefaultCoordinates, MAP_SCALE } from './map.js';
-import { setFormValidationHandlers } from './validate-form.js';
-import { getData, postData } from './api.js';
-import { newSuccessModal, newErrorModal, showModal } from './show-modal.js';
+import { disableFilters, enableFilters, mapFilters } from './filter.js'
+// import { newSuccessModal, newErrorModal, showModal } from './show-modal.js';
 
 
 const GET_DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
-const POST_DATA_URL = 'https://22.javascript.pages.academy/keksobooking';
 
 //Делаем страницу неактивной
-getPageInactive();
+disableForm();
+disableFilters();
 
-//Рисуем карту и пины
-const map = getMap();
-const mainPin = getMainPin(map);
+//инициализация карты + активация формы
+const openstreetMap = getMap();
+
+//Обработчики формы
+setFormHandlers();
 
 //Загружаем данные по объявлениям
 getData(GET_DATA_URL)
-  .then(offers => getPins(map, offers))
+  .then((ads) => {
+    console.log('Загружены объявления с сервера:', ads);
+    createMarkers(ads);
+    enableFilters();
+
+    setTimeout(() => {
+      removeMarkers();
+    }, 5000);
+
+    setTimeout(() => {
+      console.log('отрисовки маркеров после удаления', ads);
+      createMarkers(ads);
+    }, 8000);
+
+  })
   .catch(err => showAlert(err.message));
 
-//Обработчики формы
-setFormInputHandlers();
-setFormValidationHandlers();
+//Запускаем отправку формы
+submitAdForm();
 
-//Сброс формы и фильтров
 const setDefaults = () => {
   adForm.reset();
   mapFilters.reset();
-  mainPin.setLatLng([35.6804, 139.759]);
-  map.setView({
+  openstreetMap.setView({
     lat: DefaultCoordinates.X,
     lng: DefaultCoordinates.Y,
-  }, MAP_SCALE)
-}
+  }, MAP_SCALE);
+};
 
 //Сброс страницы до состояния по умолчанию
 resetAdFormButton.addEventListener('click', (evt) => {
   evt.preventDefault();
+
   setDefaults();
-  mainPin.setLatLng([35.6804, 139.759]);
+  //   mainPin.setLatLng([35.6804, 139.759]);
 })
+//Сброс формы и фильтров
+// const setDefaults = () => {
+//   adForm.reset();
+//   mapFilters.reset();
+//   mainPin.setLatLng([35.6804, 139.759]);
+//   map.setView({
+//     lat: DefaultCoordinates.X,
+//     lng: DefaultCoordinates.Y,
+//   }, MAP_SCALE)
+// }
 
-//Обработчик события submit
-const submitAdForm = () => {
-  adForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
+//Сброс страницы до состояния по умолчанию
+// resetAdFormButton.addEventListener('click', (evt) => {
+//   evt.preventDefault();
+//   setDefaults();
+//   mainPin.setLatLng([35.6804, 139.759]);
+// })
 
-    const formData = new FormData(evt.target);
-    postData(POST_DATA_URL, formData)
-      .then(() => {
-        showModal(newSuccessModal);
-        setDefaults();
-      })
-      .catch(() => {
-        showModal(newErrorModal)
-      });
-  });
-}
-
-submitAdForm();
 

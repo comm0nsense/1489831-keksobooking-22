@@ -1,96 +1,57 @@
+import { DefaultCoordinates } from './map.js'
+import { postData } from './api.js'
+import { showModal, newSuccessModal, newErrorModal } from './show-modal.js'
+
 //Константы
+const POST_DATA_URL = 'https://22.javascript.pages.academy/keksobooking';
 
-const TypeToPrice = {
-  palace: 10000,
-  flat: 1000,
-  house: 5000,
-  bungalow: 0,
-};
-
-
-//Форма и поля ввода карточки
+//Форма и поля
 const adForm = document.querySelector('.ad-form');
-const adPrice = adForm.querySelector('#price');
-const adType = adForm.querySelector('#type');
-const timeIn = adForm.querySelector('#timein');
-const timeOut = adForm.querySelector('#timeout');
 const adFormAddress = adForm.querySelector('#address');
 const adFormHeader = adForm.querySelector('.ad-form-header');
 const adFormElements = adForm.querySelectorAll('.ad-form__element');
 
-//Фильтрация объявлений
-const mapFilters = document.querySelector('.map__filters');
-const mapFiltersIds = mapFilters.querySelectorAll('.map__filter');
-const mapFeatures = mapFilters.querySelector('.map__features');
-
 //Кнопка сброса формы
 const resetAdFormButton = adForm.querySelector('.ad-form__reset');
 
-//Делает форму объявления и фильтрацию неактивными
-const getPageInactive = () => {
-  //форма объявления
+const disableForm = () => {
   adForm.classList.add('ad-form--disabled');
   adFormHeader.disabled = true;
   adFormElements.forEach(formElement => formElement.disabled = true);
-
-  //фильтрация объявлений
-  mapFilters.classList.add('map__filters--disabled');
-  mapFiltersIds.forEach(mapFilterId => mapFilterId.disabled = true);
-  mapFeatures.disabled = true;
 };
 
-//Делаем координаты недоступными для редактированя
-adFormAddress.readOnly = true;
-
-// Подстановка мин стоимости по типу жилья
-const updateOfferPrice = () => {
-  adPrice.placeholder = TypeToPrice[adType.value];
-  adPrice.min = TypeToPrice[adType.value];
-};
-
-
-// Подстановка времени выезда по вермени заезда
-const updateCheckTime = (evt) => {
-  const timeSelected = evt.target.value;
-  switch (evt.target) {
-    case timeIn:
-      timeOut.value = timeSelected;
-      break;
-    case timeOut:
-      timeIn.value = timeSelected;
-      break;
-  }
-};
-
-
-//Делаем страницу активной и подключаем проверки
-const getPageActive = () => {
+const enableForm = () => {
   adForm.classList.remove('ad-form--disabled');
   adFormHeader.disabled = false;
   adFormElements.forEach(formElement => formElement.disabled = false);
-
-  //фильтрация
-  mapFilters.classList.remove('map__filters--disabled');
-  mapFiltersIds.forEach(mapFilterId => mapFilterId.disabled = false);
-  mapFeatures.disabled = false;
+  adFormAddress.value = `${DefaultCoordinates.X}, ${DefaultCoordinates.Y}`;
 };
 
-//Обработчики событий
-const setFormInputHandlers = () => {
-  adForm.addEventListener('input', updateOfferPrice);
-  adForm.addEventListener('input', updateCheckTime);
-  adForm.addEventListener('input', updateCheckTime);
-}
+adFormAddress.readOnly = true;
+
+//Обработчик события submit
+const submitAdForm = () => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const formData = new FormData(evt.target);
+    postData(POST_DATA_URL, formData)
+      .then(() => {
+        showModal(newSuccessModal);
+        // setDefaults();
+      })
+      .catch(() => {
+        showModal(newErrorModal)
+      });
+  });
+};
+
 
 export {
-  setFormInputHandlers,
-  getPageInactive,
-  getPageActive,
+  enableForm,
+  disableForm,
   adFormAddress,
   adForm,
-  TypeToPrice,
-  adPrice,
-  adType,
   resetAdFormButton,
-  mapFilters
+  submitAdForm
 }

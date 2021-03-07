@@ -1,6 +1,5 @@
-import { getMap, getPins, removePins } from './map.js'
-
 const MAX_ADS_COUNT = 10;
+
 //Фильтрация объявлений
 const mapFilters = document.querySelector('.map__filters');
 const mapFiltersIds = mapFilters.querySelectorAll('.map__filter');

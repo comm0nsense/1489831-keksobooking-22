@@ -1,6 +1,6 @@
 /* global L:readonly */
 
-import { getPageActive, adFormAddress } from './form.js';
+import { enableForm, adFormAddress } from './form.js';
 import { createCard } from './card.js';
 
 const COORDINATE_DECIMALS_COUNT = 5;
@@ -11,9 +11,9 @@ const OpenStreetMapDetails = {
   COPYRIGHT: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 };
 
-const PinParameters = {
-  MAIN_ICON_URL: 'img/main-pin.svg',
-  PIN_ICON_URL: 'img/pin.svg',
+const MarkerParameters = {
+  MAIN_MARKER_ICON_URL: 'img/main-pin.svg',
+  MARKER_ICON_URL: 'img/pin.svg',
   WIDTH: 52,
   HEIGHT: 52,
 };
@@ -28,12 +28,21 @@ const DefaultCoordinates = {
   Y: TokyoCenterCoordinates.Y.toFixed(COORDINATE_DECIMALS_COUNT),
 };
 
+const map = L.map('map-canvas')
+
+//Параментры внешнего вида главной метки
+const mainMarkerIcon = L.icon({
+  iconUrl: MarkerParameters.MAIN_MARKER_ICON_URL,
+  iconSize: [MarkerParameters.WIDTH, MarkerParameters.HEIGHT],
+  iconAnchor: [MarkerParameters.WIDTH / 2, MarkerParameters.HEIGHT],
+});
+
 //Рисуем карту
 const getMap = () => {
-  const map = L.map('map-canvas')
+  map
     .on('load', () => {
-      getPageActive();
-      adFormAddress.value = `${DefaultCoordinates.X}, ${DefaultCoordinates.Y}`
+      // console.log('Карта инициализирована');
+      enableForm();
     })
     .setView({
       lat: DefaultCoordinates.X,
@@ -50,64 +59,74 @@ const getMap = () => {
   return map;
 };
 
-//Рисуем главную метку
-const getMainPin = (map) => {
-  //Главная метка
-  const mainPinIcon = L.icon({
-    iconUrl: PinParameters.MAIN_ICON_URL,
-    iconSize: [PinParameters.WIDTH, PinParameters.HEIGHT],
-    iconAnchor: [PinParameters.WIDTH / 2 , PinParameters.HEIGHT],
-  });
+//Рисуем Главную метку
+const mainMarker = L.marker(
+  {
+    lat: DefaultCoordinates.X,
+    lng: DefaultCoordinates.Y,
+  },
+  {
+    draggable: true,
+    icon: mainMarkerIcon,
+  },
+).addTo(map);
 
+//Перемещение главное метки
+mainMarker.on('move', (evt) => {
+  const lat = evt.target.getLatLng().lat.toFixed(COORDINATE_DECIMALS_COUNT);
+  const lng = evt.target.getLatLng().lng.toFixed(COORDINATE_DECIMALS_COUNT);
+  adFormAddress.value = `${lat}, ${lng}`;
+});
+
+//Параментры внешнего вида меток объявлений
+const markerIcon = L.icon({
+  iconUrl: MarkerParameters.MARKER_ICON_URL,
+  iconSize: [MarkerParameters.WIDTH, MarkerParameters.HEIGHT],
+  iconAnchor: [MarkerParameters.WIDTH / 2, MarkerParameters.HEIGHT],
+});
+
+const markers = [];
+
+//Рисуем обычную метку для объявлений
+const createMarker = (ad) => {
   const marker = L.marker(
     {
-      lat: DefaultCoordinates.X,
-      lng: DefaultCoordinates.Y,
+      lat: ad.location.lat,
+      lng: ad.location.lng,
     },
     {
-      draggable: true,
-      icon: mainPinIcon,
+      icon: markerIcon,
     },
-  ).addTo(map);
+  );
 
-  //Перемещение главное метки
-  marker.on('move', (evt) => {
-    adFormAddress.value = `${evt.target.getLatLng().lat.toFixed(COORDINATE_DECIMALS_COUNT)}, ${evt.target.getLatLng().lng.toFixed(COORDINATE_DECIMALS_COUNT)}`;
-  });
-
-  return marker;
-};
-
-
-//Рисуем обычные метки для объявлений
-const getPins = (map, offers) => {
-  const pinIcon = L.icon({
-    iconUrl: PinParameters.PIN_ICON_URL,
-    iconSize: [PinParameters.WIDTH, PinParameters.HEIGHT],
-    iconAnchor: [PinParameters.WIDTH / 2 , PinParameters.HEIGHT],
-  });
-
-  offers.forEach((offer) => {
-    const marker = L.marker(
+  marker
+    .addTo(map)
+    .bindPopup(
+      createCard(ad),
       {
-        lat: offer.location.lat,
-        lng: offer.location.lng,
-      },
-      {
-        icon: pinIcon,
+        keepInView: true,
       },
     );
 
-    marker
-      .addTo(map)
-      .bindPopup(
-        createCard(offer),
-        {
-          keepInView: true,
-        },
-      );
+  markers.push(marker);
+};
+
+const createMarkers = (ads) => {
+  ads.forEach(ad => {
+    createMarker(ad);
   });
+};
+
+const removeMarkers = () => {
+  markers.forEach(marker => {
+    marker.remove();
+  });
+};
+
+export {
+  getMap,
+  DefaultCoordinates,
+  createMarkers,
+  removeMarkers,
+  MAP_SCALE
 }
-
-
-export { getPins, getMap, getMainPin, DefaultCoordinates, MAP_SCALE }
