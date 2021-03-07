@@ -1,10 +1,10 @@
 import { showAlert } from './util.js';
-import { setFormInputHandlers, getPageInactive, resetAdFormButton, adForm, mapFilters } from './form.js';
-import { getPins, getMainPin, getMap, DefaultCoordinates, MAP_SCALE, removePins } from './map.js';
+import { setFormInputHandlers, getFormInactive, resetAdFormButton, adForm } from './form.js';
+import { getPins, getMap, getMainPin, DefaultCoordinates, MAP_SCALE, removePins } from './map.js';
 import { setFormValidationHandlers } from './validate-form.js';
 import { getData, postData } from './api.js';
 import { newSuccessModal, newErrorModal, showModal } from './show-modal.js';
-// import { sortAds } from './filter.js';
+import { disableFilters, mapFilters, enableFilters, setFilterListener } from './filter.js';
 // import './test.js'
 
 
@@ -12,46 +12,32 @@ const GET_DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
 const POST_DATA_URL = 'https://22.javascript.pages.academy/keksobooking';
 
 //Делаем страницу неактивной
-getPageInactive();
+getFormInactive();
+disableFilters();
+
+// setTimeout((getFormActive), 5000);
+// setTimeout((enableFilters), 6000);
 
 //Рисуем карту и пины
 const map = getMap();
 const mainPin = getMainPin(map);
 
+
 // Загружаем данные по объявлениям
 getData(GET_DATA_URL)
   .then(ads => {
-    const pins = getPins(map, ads);
-    console.log('рисуем пины, возвращаем массив объявлений полученный с сервера');
-    console.log(ads);
-    return ads
-    // return pins
-  })
-  // .then(pins => {
-  //   console.log('теперь удаляем пины');
-  //   removePins(map, pins);
-  // })
-  // если в первом then сделать ретурн ads и следующий then который удаляет пины
-  //закомментировать, то будет работать код ниже
-  .then((ads) => {
-    // здесь по изменению фильтра получаем по какому типа жилья получать массив
-    // из которого потом будут рисоваться пины
-    // как сюда передать как пользователь изменил фильтр?
-    console.log(ads);
-    const adsCopy = ads.slice();
-    const typeArray = []
-    adsCopy.forEach(ad => {
-      console.log(ad.offer.type);
-      if (ad.offer.type === 'house') {
-        typeArray.push(ad);
-      }
-    });
-    console.log(typeArray);
 
-    return typeArray;
-  })
-  .then(filteredArray => {
-    console.log('рисуем пины по данным отсортированного архива', filteredArray)
+    const pins = getPins(map, ads);
+    enableFilters();
+
+    setTimeout(() => {
+      removePins(map, pins)
+    }, 5000);
+
+    const result = setFilterListener(ads);
+    console.log(result);
+
+
   })
   .catch(err => showAlert(err.message));
 

@@ -1,6 +1,6 @@
 /* global L:readonly */
 
-import { getPageActive, adFormAddress } from './form.js';
+import { adFormAddress, getFormActive } from './form.js';
 import { createCard } from './card.js';
 
 const COORDINATE_DECIMALS_COUNT = 5;
@@ -32,7 +32,7 @@ const DefaultCoordinates = {
 const getMap = () => {
   const map = L.map('map-canvas')
     .on('load', () => {
-      getPageActive();
+      getFormActive();
       adFormAddress.value = `${DefaultCoordinates.X}, ${DefaultCoordinates.Y}`
     })
     .setView({
@@ -49,6 +49,7 @@ const getMap = () => {
 
   return map;
 };
+
 
 //Рисуем главную метку
 const getMainPin = (map) => {
@@ -77,6 +78,7 @@ const getMainPin = (map) => {
 
   return marker;
 };
+
 
 
 //Рисуем обычные метки для объявлений
@@ -120,4 +122,5 @@ const removePins = (map, markers) => {
   })
 };
 
-export { getPins, getMap, getMainPin, DefaultCoordinates, MAP_SCALE, removePins }
+
+export { getPins, getMap, getMainPin, DefaultCoordinates, MAP_SCALE, removePins}

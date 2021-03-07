@@ -19,24 +19,24 @@ const adFormHeader = adForm.querySelector('.ad-form-header');
 const adFormElements = adForm.querySelectorAll('.ad-form__element');
 
 //Фильтрация объявлений
-const mapFilters = document.querySelector('.map__filters');
-const mapFiltersIds = mapFilters.querySelectorAll('.map__filter');
-const mapFeatures = mapFilters.querySelector('.map__features');
+// const mapFilters = document.querySelector('.map__filters');
+// const mapFiltersIds = mapFilters.querySelectorAll('.map__filter');
+// const mapFeatures = mapFilters.querySelector('.map__features');
 
 //Кнопка сброса формы
 const resetAdFormButton = adForm.querySelector('.ad-form__reset');
 
 //Делает форму объявления и фильтрацию неактивными
-const getPageInactive = () => {
+const getFormInactive = () => {
   //форма объявления
   adForm.classList.add('ad-form--disabled');
   adFormHeader.disabled = true;
   adFormElements.forEach(formElement => formElement.disabled = true);
 
   //фильтрация объявлений
-  mapFilters.classList.add('map__filters--disabled');
-  mapFiltersIds.forEach(mapFilterId => mapFilterId.disabled = true);
-  mapFeatures.disabled = true;
+  // mapFilters.classList.add('map__filters--disabled');
+  // mapFiltersIds.forEach(mapFilterId => mapFilterId.disabled = true);
+  // mapFeatures.disabled = true;
 };
 
 //Делаем координаты недоступными для редактированя
@@ -64,15 +64,15 @@ const updateCheckTime = (evt) => {
 
 
 //Делаем страницу активной и подключаем проверки
-const getPageActive = () => {
+const getFormActive = () => {
   adForm.classList.remove('ad-form--disabled');
   adFormHeader.disabled = false;
   adFormElements.forEach(formElement => formElement.disabled = false);
 
   //фильтрация
-  mapFilters.classList.remove('map__filters--disabled');
-  mapFiltersIds.forEach(mapFilterId => mapFilterId.disabled = false);
-  mapFeatures.disabled = false;
+  // mapFilters.classList.remove('map__filters--disabled');
+  // mapFiltersIds.forEach(mapFilterId => mapFilterId.disabled = false);
+  // mapFeatures.disabled = false;
 };
 
 //Обработчики событий
@@ -84,13 +84,12 @@ const setFormInputHandlers = () => {
 
 export {
   setFormInputHandlers,
-  getPageInactive,
-  getPageActive,
+  getFormInactive,
+  getFormActive,
   adFormAddress,
   adForm,
   TypeToPrice,
   adPrice,
   adType,
-  resetAdFormButton,
-  mapFilters
+  resetAdFormButton
 }
