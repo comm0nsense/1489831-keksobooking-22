@@ -1,4 +1,4 @@
-import { adForm, adFormAddress } from './form.js';
+import { adForm} from './form.js';
 
 const PRICE_PER_NIGHT_MAX = 1000000;
 

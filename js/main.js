@@ -11,7 +11,7 @@ import { newSuccessModal, newErrorModal, showModal } from './show-modal.js';
 
 
 const GET_DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
-const POST_DATA_URL = 'https://22.javascript.pages.academy/skeksobooking';
+const POST_DATA_URL = 'https://22.javascript.pages.academy/keksobooking';
 
 //Делаем страницу неактивной
 disableForm();
