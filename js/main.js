@@ -1,12 +1,11 @@
 import {
-  createMarkers, getMap, removeMarkers,
-  DefaultCoordinates, MAP_SCALE, resetMainMarkerLatLng
+  createMarkers, getMap, DefaultCoordinates, MAP_SCALE, resetMainMarkerLatLng
 } from './map.js';
 import { disableForm, resetAdFormButton, resetForm, adForm } from './form.js';
 import { setFormHandlers, resetDefaultAdPrice } from './validate-form.js';
 import { getData, postData } from './api.js';
 import { showAlert } from './util.js';
-import { disableFilters, enableFilters, resetFilters } from './filter.js'
+import { disableFilters, enableFilters, resetFilters, setFilterHandler } from './filter.js'
 import { newSuccessModal, newErrorModal, showModal } from './show-modal.js';
 
 
@@ -34,19 +33,8 @@ setFormHandlers();
 //Загружаем данные по объявлениям
 getData(GET_DATA_URL)
   .then((ads) => {
-    console.log('Загружены объявления с сервера:', ads);
-    createMarkers(ads);
     enableFilters();
-
-    setTimeout(() => {
-      removeMarkers();
-    }, 5000);
-
-    setTimeout(() => {
-      console.log('Отрисовка маркеров после удаления', ads);
-      createMarkers(ads);
-    }, 8000);
-
+    renderMarkers(ads);
   })
   .catch(err => showAlert(err.message));
 
@@ -85,5 +73,12 @@ const submitAdForm = () => {
 //Запускаем отправку формы
 submitAdForm();
 
-
-
+const renderMarkers = (ads) => {
+  const slicedAds = ads.slice(0, 10);
+  createMarkers(slicedAds);
+  setFilterHandler(ads);
+  // const filteredAds = setFilterHandler(ads);
+  // const slicedFilteredAds = filteredAds.slice(0,1);
+  // removeMarkers();
+  // createMarkers(filteredAds);
+}

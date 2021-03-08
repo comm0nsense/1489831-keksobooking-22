@@ -1,3 +1,5 @@
+import { createMarkers, removeMarkers } from './map.js'
+
 const MAX_ADS_COUNT = 10;
 
 //Фильтрация объявлений
@@ -26,40 +28,40 @@ const resetFilters = () => {
   mapFilters.reset();
 }
 
-// const funcWrapper = (ads) => {
 
-const setFilterListener = (ads) => {
+const setFilterHandler = (ads) => {
 
-  const sortByFilter = (ads, filter) => {
+  const getFilteredAds = (ads, filter) => {
     const filteredAds = []
     const adsCopy = ads.slice();
     adsCopy.forEach(ad => {
-      console.log(ad.offer.type);
+      // console.log(ad.offer.type);
       if (ad.offer.type === filter) {
         filteredAds.push(ad);
       }
     });
-    console.log(`фильтер по типу: ${filter}`);
-    console.log('Все объявления по выбранному типу: ', filteredAds);
+    // console.log(`фильтер по типу: ${filter}`);
+    // console.log('Все объявления по выбранному типу: ', filteredAds);
     return filteredAds.slice(0, MAX_ADS_COUNT);
   }
 
   const onFilterChange = (evt) => {
     const selectedFilter = evt.target.value;
-    const result = sortByFilter(ads, selectedFilter);
-    console.log(result);
-    return result;
+    let filteredAds = [];
+    filteredAds = getFilteredAds(ads, selectedFilter);
+    // console.log(result);
+    // return result;
+    removeMarkers();
+    createMarkers(filteredAds)
   }
 
   housingType.addEventListener('change', onFilterChange);
-}
-
-// }
+};
 
 export {
   enableFilters,
   disableFilters,
   mapFilters,
-  setFilterListener,
+  setFilterHandler,
   resetFilters
 }
