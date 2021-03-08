@@ -1,9 +1,4 @@
 import { DefaultCoordinates } from './map.js'
-import { postData } from './api.js'
-import { showModal, newSuccessModal, newErrorModal } from './show-modal.js'
-
-//Константы
-const POST_DATA_URL = 'https://22.javascript.pages.academy/keksobooking';
 
 //Форма и поля
 const adForm = document.querySelector('.ad-form');
@@ -29,23 +24,12 @@ const enableForm = () => {
 
 adFormAddress.readOnly = true;
 
-//Обработчик события submit
-const submitAdForm = () => {
-  adForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
 
-    const formData = new FormData(evt.target);
-    postData(POST_DATA_URL, formData)
-      .then(() => {
-        showModal(newSuccessModal);
-        // setDefaults();
-      })
-      .catch(() => {
-        showModal(newErrorModal)
-      });
-  });
+//Сброс формы и фильтров
+const resetForm = () => {
+  adForm.reset();
+  adFormAddress.value = `${DefaultCoordinates.X}, ${DefaultCoordinates.Y}`;
 };
-
 
 export {
   enableForm,
@@ -53,5 +37,5 @@ export {
   adFormAddress,
   adForm,
   resetAdFormButton,
-  submitAdForm
+  resetForm
 }

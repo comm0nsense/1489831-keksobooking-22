@@ -21,6 +21,11 @@ const enableFilters = () => {
   mapFeatures.disabled = false;
 };
 
+//Сброс фильтров
+const resetFilters = () => {
+  mapFilters.reset();
+}
+
 // const funcWrapper = (ads) => {
 
 const setFilterListener = (ads) => {
@@ -51,4 +56,10 @@ const setFilterListener = (ads) => {
 
 // }
 
-export { enableFilters, disableFilters, mapFilters, setFilterListener }
+export {
+  enableFilters,
+  disableFilters,
+  mapFilters,
+  setFilterListener,
+  resetFilters
+}

@@ -1,4 +1,4 @@
-import { adForm } from './form.js';
+import { adForm, adFormAddress } from './form.js';
 
 const PRICE_PER_NIGHT_MAX = 1000000;
 
@@ -27,6 +27,13 @@ const adType = adForm.querySelector('#type');
 const timeIn = adForm.querySelector('#timein');
 const timeOut = adForm.querySelector('#timeout');
 
+//Cброс цены по выбранному типу жилья
+const resetDefaultAdPrice = () => {
+  const adTypeSelected = adType.value;
+  const adTypeSelectedPrice = TypeToPrice[adTypeSelected]
+  adPrice.placeholder = `${adTypeSelectedPrice}`;
+};
+
 // Подстановка мин стоимости по типу жилья
 const updateOfferPrice = () => {
   adPrice.placeholder = TypeToPrice[adType.value];
@@ -46,15 +53,9 @@ const updateCheckTime = (evt) => {
   }
 };
 
-//Обработчики событий
-// const setFormInputHandlers = () => {
-//   adForm.addEventListener('input', updateOfferPrice);
-//   adForm.addEventListener('input', updateCheckTime);
-// }
-
 //Проверка соответствия комнаты - гости
 const roomToGuest = (rooms, guests) => {
-  if(rooms === NotForGuestType.ROOM && guests !== NotForGuestType.GUEST) {
+  if (rooms === NotForGuestType.ROOM && guests !== NotForGuestType.GUEST) {
     capacity.setCustomValidity('Не для гостей');
   } else if (guests === NotForGuestType.GUEST && rooms !== NotForGuestType.ROOM) {
     capacity.setCustomValidity('100 комнат');
@@ -140,4 +141,4 @@ const setFormHandlers = () => {
   adForm.addEventListener('input', updateCheckTime);
 };
 
-export { setFormHandlers }
+export { setFormHandlers, resetDefaultAdPrice }

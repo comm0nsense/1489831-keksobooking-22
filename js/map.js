@@ -78,6 +78,10 @@ mainMarker.on('move', (evt) => {
   adFormAddress.value = `${lat}, ${lng}`;
 });
 
+const resetMainMarkerLatLng = () => {
+  mainMarker.setLatLng([DefaultCoordinates.X, DefaultCoordinates.Y]);
+}
+
 //Параментры внешнего вида меток объявлений
 const markerIcon = L.icon({
   iconUrl: MarkerParameters.MARKER_ICON_URL,
@@ -128,5 +132,6 @@ export {
   DefaultCoordinates,
   createMarkers,
   removeMarkers,
-  MAP_SCALE
+  MAP_SCALE,
+  resetMainMarkerLatLng
 }
