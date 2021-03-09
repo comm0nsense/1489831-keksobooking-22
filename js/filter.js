@@ -8,6 +8,7 @@ const mapFiltersIds = mapFilters.querySelectorAll('.map__filter');
 const mapFeatures = mapFilters.querySelector('.map__features');
 
 const housingType = mapFilters.querySelector('#housing-type');
+const anyFilterSelected = 'any';
 
 //фильтрация объявлений - активация
 const disableFilters = () => {
@@ -28,27 +29,31 @@ const resetFilters = () => {
   mapFilters.reset();
 }
 
-
 const setFilterHandler = (ads) => {
 
   const getFilteredAds = (ads, filter) => {
-    const filteredAds = []
-    const adsCopy = ads.slice();
-    adsCopy.forEach(ad => {
-      // console.log(ad.offer.type);
-      if (ad.offer.type === filter) {
-        filteredAds.push(ad);
-      }
-    });
-    // console.log(`фильтер по типу: ${filter}`);
-    // console.log('Все объявления по выбранному типу: ', filteredAds);
-    return filteredAds.slice(0, MAX_ADS_COUNT);
-  }
+    let filteredAds = []
+
+    if (filter === anyFilterSelected) {
+      return filteredAds = ads.slice();
+    } else {
+      const adsCopy = ads.slice();
+      adsCopy.forEach(ad => {
+        // console.log(ad.offer.type);
+        if (ad.offer.type === filter) {
+          filteredAds.push(ad);
+        }
+      });
+      // console.log(`фильтер по типу: ${filter}`);
+      // console.log('Все объявления по выбранному типу: ', filteredAds);
+      return filteredAds.slice(0, MAX_ADS_COUNT);
+    }
+  };
 
   const onFilterChange = (evt) => {
     const selectedFilter = evt.target.value;
-    let filteredAds = [];
-    filteredAds = getFilteredAds(ads, selectedFilter);
+    // console.log(selectedFilter);
+    const filteredAds = getFilteredAds(ads, selectedFilter);
     // console.log(result);
     // return result;
     removeMarkers();

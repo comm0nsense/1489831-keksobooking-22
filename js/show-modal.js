@@ -16,38 +16,22 @@ const newErrorModal = errorModalTemplate.cloneNode(true);
 
 // const tryAgainButton = newErrorModal.querySelector('.error__button');
 
-
 const showModal = (modal) => {
-  modalContainer.append(modal);
-  modal.addEventListener('click', onClick(modal));
-  window.addEventListener('keydown', onModalEscKeydown(modal) );
-};
-
-
-const onClick = (modal) => {
-  return (evt) => {
-    evt.preventDefault();
-    closeModal(modal);
-  }
-};
-
-
-const onModalEscKeydown = (modal) => {
-  return (evt) => {
-
+  const onModalEscKeydown = (evt) => {
     if (evt.key === ('Escape' || 'Esc')) {
-      closeModal(modal);
+      closeModal();
     }
+  };
 
+  const closeModal = () => {
+    modal.remove();
+    modal.removeEventListener('click', closeModal);
+    modal.removeEventListener('keydown', onModalEscKeydown);
   }
+
+  modalContainer.append(modal);
+  modal.addEventListener('click', closeModal);
+  document.addEventListener('keydown', onModalEscKeydown);
 };
-
-
-const closeModal = (modal) => {
-  modal.remove();
-  window.removeEventListener('keydown', onModalEscKeydown(modal));
-  modal.removeEventListener('click', onClick(modal));
-};
-
 
 export { newSuccessModal, newErrorModal, showModal };

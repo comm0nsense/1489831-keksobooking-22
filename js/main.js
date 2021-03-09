@@ -30,6 +30,8 @@ const resetMapView = () => {
 //Обработчики формы
 setFormHandlers();
 
+let slicedAds = [];
+
 //Загружаем данные по объявлениям
 getData(GET_DATA_URL)
   .then((ads) => {
@@ -44,7 +46,7 @@ const setDefaults = () => {
   resetFilters();
   resetMainMarkerLatLng();
   resetDefaultAdPrice();
-  //возвращение маркеров после сброса фильтрации?
+  createMarkers(slicedAds);
 }
 
 //Сброс страницы до состояния по умолчанию по нажатию кнопки Очистить
@@ -74,11 +76,7 @@ const submitAdForm = () => {
 submitAdForm();
 
 const renderMarkers = (ads) => {
-  const slicedAds = ads.slice(0, 10);
+  slicedAds = ads.slice(0, 10);
   createMarkers(slicedAds);
   setFilterHandler(ads);
-  // const filteredAds = setFilterHandler(ads);
-  // const slicedFilteredAds = filteredAds.slice(0,1);
-  // removeMarkers();
-  // createMarkers(filteredAds);
 }
