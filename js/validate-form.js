@@ -1,4 +1,4 @@
-import { adForm, TypeToPrice, adPrice, adType } from './form.js';
+import { adForm} from './form.js';
 
 const PRICE_PER_NIGHT_MAX = 1000000;
 
@@ -7,22 +7,58 @@ const TitleLength = {
   MAX: 100,
 }
 
+const TypeToPrice = {
+  palace: 10000,
+  flat: 1000,
+  house: 5000,
+  bungalow: 0,
+};
+
 const NotForGuestType = {
-  ROOM: 100,
-  GUEST: 0,
+  ROOM: '100',
+  GUEST: '0',
 }
 
 const adTitle = adForm.querySelector('#title');
 const roomNumber = adForm.querySelector('#room_number');
 const capacity = adForm.querySelector('#capacity');
+const adPrice = adForm.querySelector('#price');
+const adType = adForm.querySelector('#type');
+const timeIn = adForm.querySelector('#timein');
+const timeOut = adForm.querySelector('#timeout');
 
+//Cброс цены по выбранному типу жилья
+const resetDefaultAdPrice = () => {
+  const adTypeSelected = adType.value;
+  const adTypeSelectedPrice = TypeToPrice[adTypeSelected]
+  adPrice.placeholder = `${adTypeSelectedPrice}`;
+};
+
+// Подстановка мин стоимости по типу жилья
+const updateOfferPrice = () => {
+  adPrice.placeholder = TypeToPrice[adType.value];
+  adPrice.min = TypeToPrice[adType.value];
+};
+
+// Подстановка времени выезда по вермени заезда
+const updateCheckTime = (evt) => {
+  const timeSelected = evt.target.value;
+  switch (evt.target) {
+    case timeIn:
+      timeOut.value = timeSelected;
+      break;
+    case timeOut:
+      timeIn.value = timeSelected;
+      break;
+  }
+};
 
 //Проверка соответствия комнаты - гости
 const roomToGuest = (rooms, guests) => {
-  if(rooms === NotForGuestType.ROOM && guests !== NotForGuestType.GUEST) {
+  if (rooms === NotForGuestType.ROOM && guests !== NotForGuestType.GUEST) {
     capacity.setCustomValidity('Не для гостей');
   } else if (guests === NotForGuestType.GUEST && rooms !== NotForGuestType.ROOM) {
-    capacity.setCustomValidity('Не для гостей');
+    capacity.setCustomValidity('100 комнат');
   } else if (rooms < guests) {
     capacity.setCustomValidity(`Гостей (${guests}) больше чем свободных комнат (${rooms})`);
   } else {
@@ -96,11 +132,13 @@ const checkOfferPrice = () => {
 
 
 //Обработчики событий
-const setFormValidationHandlers = () => {
+const setFormHandlers = () => {
   adTitle.addEventListener('input', checkTitleInput);
   adPrice.addEventListener('input', checkOfferPrice);
   capacity.addEventListener('input', checkGuests);
   roomNumber.addEventListener('input', checkRooms);
+  adForm.addEventListener('input', updateOfferPrice);
+  adForm.addEventListener('input', updateCheckTime);
 };
 
-export { setFormValidationHandlers }
+export { setFormHandlers, resetDefaultAdPrice }

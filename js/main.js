@@ -1,8 +1,11 @@
-import { showAlert } from './util.js';
-import { setFormInputHandlers, getPageInactive, resetAdFormButton, adForm, mapFilters } from './form.js';
-import { getPins, getMainPin, getMap, DefaultCoordinates, MAP_SCALE } from './map.js';
-import { setFormValidationHandlers } from './validate-form.js';
+import {
+  createMarkers, getMap, DefaultCoordinates, MAP_SCALE, resetMainMarkerLatLng
+} from './map.js';
+import { disableForm, resetAdFormButton, resetForm, adForm } from './form.js';
+import { setFormHandlers, resetDefaultAdPrice } from './validate-form.js';
 import { getData, postData } from './api.js';
+import { showAlert } from './util.js';
+import { disableFilters, enableFilters, resetFilters, setFilterHandler } from './filter.js'
 import { newSuccessModal, newErrorModal, showModal } from './show-modal.js';
 
 
@@ -10,41 +13,49 @@ const GET_DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
 const POST_DATA_URL = 'https://22.javascript.pages.academy/keksobooking';
 
 //Делаем страницу неактивной
-getPageInactive();
+disableForm();
+disableFilters();
 
-//Рисуем карту и пины
-const map = getMap();
-const mainPin = getMainPin(map);
+//инициализация карты + активация формы
+const openstreetMap = getMap();
+
+//сброс карты в исходное состояние
+const resetMapView = () => {
+  openstreetMap.setView({
+    lat: DefaultCoordinates.X,
+    lng: DefaultCoordinates.Y,
+  }, MAP_SCALE);
+}
+
+//Обработчики формы
+setFormHandlers();
+
+let slicedAds = [];
 
 //Загружаем данные по объявлениям
 getData(GET_DATA_URL)
-  .then(offers => getPins(map, offers))
+  .then((ads) => {
+    enableFilters();
+    renderMarkers(ads);
+  })
   .catch(err => showAlert(err.message));
 
-//Обработчики формы
-setFormInputHandlers();
-setFormValidationHandlers();
-
-//Сброс формы и фильтров
 const setDefaults = () => {
-  adForm.reset();
-  mapFilters.reset();
-  mainPin.setLatLng([35.6804, 139.759]);
-  map
-    .setView({
-      lat: DefaultCoordinates.X,
-      lng: DefaultCoordinates.Y,
-    }, MAP_SCALE)
+  resetMapView();
+  resetForm();
+  resetFilters();
+  resetMainMarkerLatLng();
+  resetDefaultAdPrice();
+  createMarkers(slicedAds);
 }
 
-//Сброс страницы до состояния по умолчанию
+//Сброс страницы до состояния по умолчанию по нажатию кнопки Очистить
 resetAdFormButton.addEventListener('click', (evt) => {
   evt.preventDefault();
-  setDefaults();
-  mainPin.setLatLng([35.6804, 139.759]);
-})
+  setDefaults()
+});
 
-//Обработчик события submit
+//Обработчик события Отправки формы
 const submitAdForm = () => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -59,7 +70,13 @@ const submitAdForm = () => {
         showModal(newErrorModal)
       });
   });
-}
+};
 
+//Запускаем отправку формы
 submitAdForm();
 
+const renderMarkers = (ads) => {
+  slicedAds = ads.slice(0, 10);
+  createMarkers(slicedAds);
+  setFilterHandler(ads);
+}
