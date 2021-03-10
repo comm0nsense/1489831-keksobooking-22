@@ -63,14 +63,9 @@ const setFilterHandler = (ads) => {
   const filterGuests = ad => (adGuests === ANY_FILTER ? true : ad.offer.guests === +adGuests);
   const filterPrice = ad => adPrice === ANY_FILTER ? true :
     priceToRange[adPrice].MIN <= ad.offer.price && priceToRange[adPrice].MAX >= ad.offer.price;
-  // const filterFeatures = ad => adFeatures.every(feature => ad.offer.features.includes(feature));
-  // const filtereatures = ad => {
-  //   // const isHavinfFeature = (feature) =>
-  //   adFeatures.forEach(feature => {
-  //     ad.offer.features.includes(feature)
-  //   })
+
   const filterFeatures = (ad) => {
-    for (let i = 0; i <= adFeatures.length -1; i++) {
+    for (let i = 0; i <= adFeatures.length - 1; i++) {
       if (!ad.offer.features.includes(adFeatures[i])){
         return false;
       }
@@ -101,7 +96,7 @@ const setFilterHandler = (ads) => {
       .filter(filterRooms)
       .filter(filterGuests)
       .filter(filterPrice)
-      .filter(filterFeatures);
+      // .filter(filterFeatures);
 
     const slicedFilteredAds = filteredAds.slice(0, MAX_ADS_COUNT);
     // console.log(filteredAds);
