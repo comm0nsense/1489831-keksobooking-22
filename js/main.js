@@ -5,7 +5,7 @@ import { disableForm, resetAdFormButton, resetForm, adForm } from './form.js';
 import { setFormHandlers, resetDefaultAdPrice } from './validate-form.js';
 import { getData, postData } from './api.js';
 import { showAlert } from './util.js';
-import { disableFilters, enableFilters, resetFilters, setFilterHandler } from './filter.js'
+import { disableFilters, enableFilters, resetFilters, setFilterHandler, MAX_ADS_COUNT } from './filter.js'
 import { newSuccessModal, newErrorModal, showModal } from './show-modal.js';
 
 
@@ -32,9 +32,17 @@ setFormHandlers();
 
 let slicedAds = [];
 
+//отрисовка маркеров
+const renderMarkers = (ads) => {
+  slicedAds = ads.slice(0, MAX_ADS_COUNT);
+  createMarkers(slicedAds);
+  setFilterHandler(ads);
+}
+
 //Загружаем данные по объявлениям
 getData(GET_DATA_URL)
   .then((ads) => {
+    console.log(ads);
     enableFilters();
     renderMarkers(ads);
   })
@@ -74,9 +82,3 @@ const submitAdForm = () => {
 
 //Запускаем отправку формы
 submitAdForm();
-
-const renderMarkers = (ads) => {
-  slicedAds = ads.slice(0, 10);
-  createMarkers(slicedAds);
-  setFilterHandler(ads);
-}

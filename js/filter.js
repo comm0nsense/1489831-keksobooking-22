@@ -1,26 +1,33 @@
 import { createMarkers, removeMarkers } from './map.js'
 
 const MAX_ADS_COUNT = 10;
+const ANY_FILTER_SELECTED = 'any';
 
 //Фильтрация объявлений
 const mapFilters = document.querySelector('.map__filters');
-const mapFiltersIds = mapFilters.querySelectorAll('.map__filter');
+const housingFilters = mapFilters.querySelectorAll('.map__filter');
 const mapFeatures = mapFilters.querySelector('.map__features');
+const featuresSelect = mapFilters.querySelectorAll('.map__checkbox');
 
 const housingType = mapFilters.querySelector('#housing-type');
-const anyFilterSelected = 'any';
+
+// console.log(housingType.value)
+const housingPrice = mapFilters.querySelector('#housing-price');
+const housingRooms = mapFilters.querySelector('#housing-rooms');
+const housingGuests = mapFilters.querySelector('#housing-guests');
+
 
 //фильтрация объявлений - активация
 const disableFilters = () => {
   mapFilters.classList.add('map__filters--disabled');
-  mapFiltersIds.forEach(mapFilterId => mapFilterId.disabled = true);
+  housingFilters.forEach(mapFilterId => mapFilterId.disabled = true);
   mapFeatures.disabled = true;
 };
 
 //деактивация фильтров
 const enableFilters = () => {
   mapFilters.classList.remove('map__filters--disabled');
-  mapFiltersIds.forEach(mapFilterId => mapFilterId.disabled = false);
+  housingFilters.forEach(mapFilterId => mapFilterId.disabled = false);
   mapFeatures.disabled = false;
 };
 
@@ -29,38 +36,76 @@ const resetFilters = () => {
   mapFilters.reset();
 }
 
+//****************8.2 *************///////////
+// console.log(featuresSelect);
+const featuresSelectArr = Array.from(featuresSelect);
+// console.log(featuresSelectArr);
+const result = featuresSelectArr.map((feature) => feature.value);
+console.log(result);
+const adFeatures = mapFilters.querySelectorAll('input:checked');
+const adFeaturesArr = Array.from(adFeatures);
+const adFeaturesSelected = adFeaturesArr.map((feature) => { feature.value });
+
+
 const setFilterHandler = (ads) => {
+  //получаем текущие значение фильтров
+  let adType = housingType.value;
+  let adPrice = housingPrice.value;
+  let adRooms = housingRooms.value;
+  let adGuests = housingGuests.value;
 
-  const getFilteredAds = (ads, filter) => {
-    let filteredAds = []
-
-    if (filter === anyFilterSelected) {
-      return filteredAds = ads.slice();
+  const filterType = (ads, filter) => {
+    if (filter === ANY_FILTER_SELECTED) {
+      return ads.slice();
     } else {
       const adsCopy = ads.slice();
-      adsCopy.forEach(ad => {
-        // console.log(ad.offer.type);
-        if (ad.offer.type === filter) {
-          filteredAds.push(ad);
-        }
-      });
-      // console.log(`фильтер по типу: ${filter}`);
-      // console.log('Все объявления по выбранному типу: ', filteredAds);
-      return filteredAds.slice(0, MAX_ADS_COUNT);
+      return adsCopy.filter(ad => ad.offer.type === filter);
     }
   };
 
+  const filterRooms = (ads, filter) => {
+    if (filter === ANY_FILTER_SELECTED) {
+      return ads.slice();
+    } else {
+      const adsCopy = ads.slice();
+      console.log(typeof(filter));
+      return adsCopy.filter (ad => {
+        console.log(ad.offer.rooms);
+        ad.offer.rooms === filter;
+      });
+    }
+  }
+
   const onFilterChange = (evt) => {
-    const selectedFilter = evt.target.value;
+    const selectedFilter = evt.target.id
+    console.log(`клик по фильтру: ${selectedFilter}`)
+
+    //изменяем значение при клике на фильтр
+    if (selectedFilter === housingType.id) {
+      adType = evt.target.value;
+      console.log(`выбранный типа жилья: ${adType}`);
+    } else if (selectedFilter === housingPrice.id) {
+      adPrice = evt.target.value;
+      console.log(`выбранный диапазон цены: ${adPrice}`);
+    } else if (selectedFilter === housingRooms.id) {
+      adRooms = evt.target.value;
+      console.log(`количество комнат: ${adRooms}`);
+    } else if (selectedFilter === housingGuests.id) {
+      adGuests = evt.target.value;
+      console.log(`количество гостей: ${adGuests}`)
+    }
+    // const selectedFilter = evt.target.value;
     // console.log(selectedFilter);
-    const filteredAds = getFilteredAds(ads, selectedFilter);
-    // console.log(result);
-    // return result;
+    // const filteredAds = filterType(ads, adType);
+    const filteredAds = filterRooms(ads, adRooms);
+    // const filteredAds = ads
+      // .filter(ad => ad.offer.type === adType)
+      // .filter(ad => ad.offer.rooms === adRooms);
     removeMarkers();
     createMarkers(filteredAds)
   }
 
-  housingType.addEventListener('change', onFilterChange);
+  mapFilters.addEventListener('change', onFilterChange);
 };
 
 export {
@@ -68,5 +113,6 @@ export {
   disableFilters,
   mapFilters,
   setFilterHandler,
-  resetFilters
+  resetFilters,
+  MAX_ADS_COUNT
 }

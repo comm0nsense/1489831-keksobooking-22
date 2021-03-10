@@ -58,7 +58,7 @@ const roomToGuest = (rooms, guests) => {
   if (rooms === NotForGuestType.ROOM && guests !== NotForGuestType.GUEST) {
     capacity.setCustomValidity('Не для гостей');
   } else if (guests === NotForGuestType.GUEST && rooms !== NotForGuestType.ROOM) {
-    capacity.setCustomValidity('100 комнат');
+    capacity.setCustomValidity(`${NotForGuestType.ROOM} комнат`);
   } else if (rooms < guests) {
     capacity.setCustomValidity(`Гостей (${guests}) больше чем свободных комнат (${rooms})`);
   } else {
