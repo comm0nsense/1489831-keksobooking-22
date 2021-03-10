@@ -24,13 +24,11 @@ const priceToRange = {
 const mapFilters = document.querySelector('.map__filters');
 const housingFilters = mapFilters.querySelectorAll('.map__filter');
 const mapFeatures = mapFilters.querySelector('.map__features');
-const featuresSelect = mapFilters.querySelectorAll('.map__checkbox');
 
 const housingType = mapFilters.querySelector('#housing-type');
 const housingPrice = mapFilters.querySelector('#housing-price');
 const housingRooms = mapFilters.querySelector('#housing-rooms');
 const housingGuests = mapFilters.querySelector('#housing-guests');
-
 
 //фильтрация объявлений - активация
 const disableFilters = () => {
@@ -57,8 +55,6 @@ const setFilterHandler = (ads) => {
   let adPrice = housingPrice.value;
   let adRooms = housingRooms.value;
   let adGuests = housingGuests.value;
-  // let adFeatures = Array.from(featuresSelect).map((feature) => feature.value);
-  // console.log(adFeatures);
   let adFeatures = [];
 
   //Настройка фильтровки для каждого фильтра
@@ -70,7 +66,7 @@ const setFilterHandler = (ads) => {
 
   const filterFeatures = (ad) => {
     for (let i = 0; i <= adFeatures.length - 1; i++) {
-      if (!ad.offer.features.includes(adFeatures[i])){
+      if (!ad.offer.features.includes(adFeatures[i])) {
         return false;
       }
     }
@@ -79,8 +75,6 @@ const setFilterHandler = (ads) => {
 
 
   const onFilterChange = (evt) => {
-    // console.log(evt.target.id, evt.target.value)
-
     //изменяем значение при клике на фильтр
     if (evt.target.id === housingType.id) {
       adType = evt.target.value;
@@ -92,7 +86,6 @@ const setFilterHandler = (ads) => {
       adGuests = evt.target.value;
     } else if (evt.target.id === ('filter-' + evt.target.value)) {
       adFeatures = Array.from(mapFeatures.querySelectorAll('input:checked')).map((feature) => feature.value);
-      // console.log(adFeatures);
     }
 
     const filteredAds = ads
@@ -103,21 +96,12 @@ const setFilterHandler = (ads) => {
       .filter(filterFeatures);
 
     const slicedFilteredAds = filteredAds.slice(0, MAX_ADS_COUNT);
-    // console.log(filteredAds);
-    // removeMarkers();
-    // createMarkers(slicedFilteredAds);
 
-    const reRenderMarkers = () => {
-      removeMarkers();
-      createMarkers(slicedFilteredAds);
-    };
-
-    reRenderMarkers();
-
-    // _.debounce( reRenderMarkers(), RERENDER_DELAY);
+    removeMarkers();
+    createMarkers(slicedFilteredAds);
   }
 
-  mapFilters.addEventListener('change', onFilterChange);
+  mapFilters.addEventListener('change', _.debounce(onFilterChange, RERENDER_DELAY));
 };
 
 export {

@@ -16,7 +16,6 @@ const errorModalTemplate = document.querySelector('#error')
 const newSuccessModal = successModalTemplate.cloneNode(true);
 const newErrorModal = errorModalTemplate.cloneNode(true);
 
-// const tryAgainButton = newErrorModal.querySelector('.error__button');
 
 const showModal = (modal) => {
   const onModalEscKeydown = (evt) => {

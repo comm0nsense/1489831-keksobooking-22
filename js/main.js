@@ -7,7 +7,6 @@ import { getData, postData } from './api.js';
 import { showAlert } from './util.js';
 import { disableFilters, enableFilters, resetFilters, setFilterHandler, MAX_ADS_COUNT } from './filter.js'
 import { newSuccessModal, newErrorModal, showModal } from './show-modal.js';
-// import './test.js'
 
 
 const GET_DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
@@ -35,7 +34,6 @@ let slicedAds = [];
 
 //отрисовка маркеров
 const renderMarkers = (ads) => {
-  console.log(ads);
   slicedAds = ads.slice(0, MAX_ADS_COUNT);
   createMarkers(slicedAds);
   setFilterHandler(ads);
