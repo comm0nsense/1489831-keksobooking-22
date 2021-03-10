@@ -42,7 +42,6 @@ const renderMarkers = (ads) => {
 //Загружаем данные по объявлениям
 getData(GET_DATA_URL)
   .then((ads) => {
-    console.log(ads);
     enableFilters();
     renderMarkers(ads);
   })

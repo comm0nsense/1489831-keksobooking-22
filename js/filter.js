@@ -1,7 +1,22 @@
 import { createMarkers, removeMarkers } from './map.js'
 
 const MAX_ADS_COUNT = 10;
-const ANY_FILTER_SELECTED = 'any';
+const ANY_FILTER = 'any';
+
+const priceToRange = {
+  low: {
+    min: 0,
+    max: 10000,
+  },
+  middle: {
+    min: 10000,
+    max: 50000,
+  },
+  high: {
+    min: 50000,
+    max: Infinity,
+  },
+};
 
 //Фильтрация объявлений
 const mapFilters = document.querySelector('.map__filters');
@@ -10,8 +25,6 @@ const mapFeatures = mapFilters.querySelector('.map__features');
 const featuresSelect = mapFilters.querySelectorAll('.map__checkbox');
 
 const housingType = mapFilters.querySelector('#housing-type');
-
-// console.log(housingType.value)
 const housingPrice = mapFilters.querySelector('#housing-price');
 const housingRooms = mapFilters.querySelector('#housing-rooms');
 const housingGuests = mapFilters.querySelector('#housing-guests');
@@ -34,18 +47,7 @@ const enableFilters = () => {
 //Сброс фильтров
 const resetFilters = () => {
   mapFilters.reset();
-}
-
-//****************8.2 *************///////////
-// console.log(featuresSelect);
-const featuresSelectArr = Array.from(featuresSelect);
-// console.log(featuresSelectArr);
-const result = featuresSelectArr.map((feature) => feature.value);
-console.log(result);
-const adFeatures = mapFilters.querySelectorAll('input:checked');
-const adFeaturesArr = Array.from(adFeatures);
-const adFeaturesSelected = adFeaturesArr.map((feature) => { feature.value });
-
+};
 
 const setFilterHandler = (ads) => {
   //получаем текущие значение фильтров
@@ -53,57 +55,44 @@ const setFilterHandler = (ads) => {
   let adPrice = housingPrice.value;
   let adRooms = housingRooms.value;
   let adGuests = housingGuests.value;
+  let adFeatures = Array.from(featuresSelect).map((feature) => feature.value);
 
-  const filterType = (ads, filter) => {
-    if (filter === ANY_FILTER_SELECTED) {
-      return ads.slice();
-    } else {
-      const adsCopy = ads.slice();
-      return adsCopy.filter(ad => ad.offer.type === filter);
-    }
-  };
+  //
+  const filterType = ad => adType === ANY_FILTER ? true : ad.offer.type === adType;
+  const filterRooms = ad => adRooms === ANY_FILTER ? true : ad.offer.rooms === +adRooms;
+  const filterGuests = ad => (adGuests === ANY_FILTER ? true : ad.offer.guests === +adGuests);
+  const filterPrice = ad => adPrice === ANY_FILTER ? true :
+    priceToRange[adPrice].min <= ad.offer.price && priceToRange[adPrice].max >= ad.offer.price;
+  const filterFeatures = ad => adFeatures.every(feature =>  ad.offer.features.includes(feature));
 
-  const filterRooms = (ads, filter) => {
-    if (filter === ANY_FILTER_SELECTED) {
-      return ads.slice();
-    } else {
-      const adsCopy = ads.slice();
-      console.log('фильтр это:', typeof(+filter));
-      return adsCopy.filter (ad => {
-        let roomNumber = ad.offer.rooms;
-        console.log(`кол-во комнат ${roomNumber} это тип`, typeof(roomNumber));
-        ad.offer.rooms === +filter;
-      });
-    }
-  }
 
   const onFilterChange = (evt) => {
     const selectedFilter = evt.target.id
-    console.log(`клик по фильтру: ${selectedFilter}`)
 
     //изменяем значение при клике на фильтр
     if (selectedFilter === housingType.id) {
       adType = evt.target.value;
-      console.log(`выбранный типа жилья: ${adType}`);
     } else if (selectedFilter === housingPrice.id) {
       adPrice = evt.target.value;
-      console.log(`выбранный диапазон цены: ${adPrice}`);
     } else if (selectedFilter === housingRooms.id) {
       adRooms = evt.target.value;
-      console.log(`количество комнат: ${adRooms}`);
     } else if (selectedFilter === housingGuests.id) {
       adGuests = evt.target.value;
-      console.log(`количество гостей: ${adGuests}`)
     }
-    // const selectedFilter = evt.target.value;
-    // console.log(selectedFilter);
-    // const filteredAds = filterType(ads, adType);
-    const filteredAds = filterRooms(ads, adRooms);
-    // const filteredAds = ads
-      // .filter(ad => ad.offer.type === adType)
-      // .filter(ad => ad.offer.rooms === adRooms);
+    else if (selectedFilter === ('filter-' + evt.target.value)) {
+      adFeatures = Array.from(mapFilters.querySelectorAll('input:checked')).map((feature) => feature.value);
+    }
+
+    const filteredAds = ads
+      .filter(filterType)
+      .filter(filterRooms)
+      .filter(filterGuests)
+      .filter(filterPrice)
+      .filter(filterFeatures);
+
+    const slicedFilteredAds = filteredAds.slice(0, MAX_ADS_COUNT);
     removeMarkers();
-    createMarkers(filteredAds)
+    createMarkers(slicedFilteredAds);
   }
 
   mapFilters.addEventListener('change', onFilterChange);
