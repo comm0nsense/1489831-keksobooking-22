@@ -5,16 +5,16 @@ const ANY_FILTER = 'any';
 
 const priceToRange = {
   low: {
-    min: 0,
-    max: 10000,
+    MIN: 0,
+    MAX: 10000,
   },
   middle: {
-    min: 10000,
-    max: 50000,
+    MIN: 10000,
+    MAX: 50000,
   },
   high: {
-    min: 50000,
-    max: Infinity,
+    MIN: 50000,
+    MAX: 999999,
   },
 };
 
@@ -57,30 +57,43 @@ const setFilterHandler = (ads) => {
   let adGuests = housingGuests.value;
   let adFeatures = Array.from(featuresSelect).map((feature) => feature.value);
 
-  //
+  //Настройка фильтровки для каждого фильтра
   const filterType = ad => adType === ANY_FILTER ? true : ad.offer.type === adType;
   const filterRooms = ad => adRooms === ANY_FILTER ? true : ad.offer.rooms === +adRooms;
   const filterGuests = ad => (adGuests === ANY_FILTER ? true : ad.offer.guests === +adGuests);
   const filterPrice = ad => adPrice === ANY_FILTER ? true :
-    priceToRange[adPrice].min <= ad.offer.price && priceToRange[adPrice].max >= ad.offer.price;
-  const filterFeatures = ad => adFeatures.every(feature =>  ad.offer.features.includes(feature));
+    priceToRange[adPrice].MIN <= ad.offer.price && priceToRange[adPrice].MAX >= ad.offer.price;
+  // const filterFeatures = ad => adFeatures.every(feature => ad.offer.features.includes(feature));
+  // const filtereatures = ad => {
+  //   // const isHavinfFeature = (feature) =>
+  //   adFeatures.forEach(feature => {
+  //     ad.offer.features.includes(feature)
+  //   })
+  const filterFeatures = (ad) => {
+    for (let i = 0; i <= adFeatures.length -1; i++) {
+      if (!ad.offer.features.includes(adFeatures[i])){
+        return false;
+      }
+    }
+    return true;
+  };
 
 
   const onFilterChange = (evt) => {
-    const selectedFilter = evt.target.id
+    // console.log(evt.target.id, evt.target.value)
 
     //изменяем значение при клике на фильтр
-    if (selectedFilter === housingType.id) {
+    if (evt.target.id === housingType.id) {
       adType = evt.target.value;
-    } else if (selectedFilter === housingPrice.id) {
+    } else if (evt.target.id === housingPrice.id) {
       adPrice = evt.target.value;
-    } else if (selectedFilter === housingRooms.id) {
+    } else if (evt.target.id === housingRooms.id) {
       adRooms = evt.target.value;
-    } else if (selectedFilter === housingGuests.id) {
+    } else if (evt.target.id === housingGuests.id) {
       adGuests = evt.target.value;
-    }
-    else if (selectedFilter === ('filter-' + evt.target.value)) {
-      adFeatures = Array.from(mapFilters.querySelectorAll('input:checked')).map((feature) => feature.value);
+    } else if (evt.target.id === ('filter-' + evt.target.value)) {
+      adFeatures = Array.from(mapFeatures.querySelectorAll('input:checked')).map((feature) => feature.value);
+      // console.log(adFeatures);
     }
 
     const filteredAds = ads
@@ -91,6 +104,7 @@ const setFilterHandler = (ads) => {
       .filter(filterFeatures);
 
     const slicedFilteredAds = filteredAds.slice(0, MAX_ADS_COUNT);
+    // console.log(filteredAds);
     removeMarkers();
     createMarkers(slicedFilteredAds);
   }
