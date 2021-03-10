@@ -68,10 +68,11 @@ const setFilterHandler = (ads) => {
       return ads.slice();
     } else {
       const adsCopy = ads.slice();
-      console.log(typeof(filter));
+      console.log('фильтр это:', typeof(+filter));
       return adsCopy.filter (ad => {
-        console.log(ad.offer.rooms);
-        ad.offer.rooms === filter;
+        let roomNumber = ad.offer.rooms;
+        console.log(`кол-во комнат ${roomNumber} это тип`, typeof(roomNumber));
+        ad.offer.rooms === +filter;
       });
     }
   }
