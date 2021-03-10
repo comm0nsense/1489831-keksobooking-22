@@ -1,7 +1,9 @@
+/* global _:readonly */
 import { createMarkers, removeMarkers } from './map.js'
 
 const MAX_ADS_COUNT = 10;
 const ANY_FILTER = 'any';
+const RERENDER_DELAY = 500;
 
 const priceToRange = {
   low: {
@@ -102,8 +104,17 @@ const setFilterHandler = (ads) => {
 
     const slicedFilteredAds = filteredAds.slice(0, MAX_ADS_COUNT);
     // console.log(filteredAds);
-    removeMarkers();
-    createMarkers(slicedFilteredAds);
+    // removeMarkers();
+    // createMarkers(slicedFilteredAds);
+
+    const reRenderMarkers = () => {
+      removeMarkers();
+      createMarkers(slicedFilteredAds);
+    };
+
+    reRenderMarkers();
+
+    // _.debounce( reRenderMarkers(), RERENDER_DELAY);
   }
 
   mapFilters.addEventListener('change', onFilterChange);
