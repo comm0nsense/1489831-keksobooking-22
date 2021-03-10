@@ -55,7 +55,9 @@ const setFilterHandler = (ads) => {
   let adPrice = housingPrice.value;
   let adRooms = housingRooms.value;
   let adGuests = housingGuests.value;
-  let adFeatures = Array.from(featuresSelect).map((feature) => feature.value);
+  // let adFeatures = Array.from(featuresSelect).map((feature) => feature.value);
+  // console.log(adFeatures);
+  let adFeatures = [];
 
   //Настройка фильтровки для каждого фильтра
   const filterType = ad => adType === ANY_FILTER ? true : ad.offer.type === adType;
@@ -96,7 +98,7 @@ const setFilterHandler = (ads) => {
       .filter(filterRooms)
       .filter(filterGuests)
       .filter(filterPrice)
-      // .filter(filterFeatures);
+      .filter(filterFeatures);
 
     const slicedFilteredAds = filteredAds.slice(0, MAX_ADS_COUNT);
     // console.log(filteredAds);
