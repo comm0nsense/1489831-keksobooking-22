@@ -1,3 +1,5 @@
+const ESC_KEYDOWN = ['Escape', 'Esc'];
+
 //Контейнер для сообщения
 const modalContainer = document.querySelector('main');
 
@@ -14,11 +16,10 @@ const errorModalTemplate = document.querySelector('#error')
 const newSuccessModal = successModalTemplate.cloneNode(true);
 const newErrorModal = errorModalTemplate.cloneNode(true);
 
-// const tryAgainButton = newErrorModal.querySelector('.error__button');
 
 const showModal = (modal) => {
   const onModalEscKeydown = (evt) => {
-    if (evt.key === ('Escape' || 'Esc')) {
+    if (evt.key === (ESC_KEYDOWN[0] || ESC_KEYDOWN[1])) {
       closeModal();
     }
   };

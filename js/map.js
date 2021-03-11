@@ -41,7 +41,6 @@ const mainMarkerIcon = L.icon({
 const getMap = () => {
   map
     .on('load', () => {
-      // console.log('Карта инициализирована');
       enableForm();
     })
     .setView({

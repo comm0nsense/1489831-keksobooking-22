@@ -58,7 +58,7 @@ const roomToGuest = (rooms, guests) => {
   if (rooms === NotForGuestType.ROOM && guests !== NotForGuestType.GUEST) {
     capacity.setCustomValidity('Не для гостей');
   } else if (guests === NotForGuestType.GUEST && rooms !== NotForGuestType.ROOM) {
-    capacity.setCustomValidity('100 комнат');
+    capacity.setCustomValidity(`${NotForGuestType.ROOM} комнат`);
   } else if (rooms < guests) {
     capacity.setCustomValidity(`Гостей (${guests}) больше чем свободных комнат (${rooms})`);
   } else {
@@ -68,7 +68,6 @@ const roomToGuest = (rooms, guests) => {
   capacity.reportValidity();
 };
 
-//test
 const capacityOptions = capacity.querySelectorAll('option');
 const roomOptions = roomNumber.querySelectorAll('option');
 
@@ -83,18 +82,16 @@ const getOptionSelected = (options) => {
 
   return result;
 };
-//end of test
+
 
 const checkRooms = (evt) => {
   const rooms = evt.target.value;
-  // const guests = evt.target.options.selectedIndex;
   const guests = getOptionSelected(capacityOptions);
   roomToGuest(rooms, guests);
 };
 
 const checkGuests = (evt) => {
   const guests = evt.target.value;
-  // const rooms = evt.target.options.selectedIndex;
   const rooms = getOptionSelected(roomOptions);
   roomToGuest(rooms, guests);
 };

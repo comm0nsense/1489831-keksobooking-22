@@ -6,10 +6,6 @@ const typeMap = new Map([
   ['bungalow', 'Бунгало'],
 ]);
 
-
-//Контейнер для карточек
-// const cardContainer = document.querySelector('#map-canvas');
-
 //Шаблон карточки
 const cardTemplate = document.querySelector('#card').content;
 const newCardTemplate = cardTemplate.querySelector('.popup');
@@ -59,8 +55,6 @@ const createCard = (card) => {
   });
 
   newCard.querySelector('.popup__avatar').src = card.author.avatar;
-
-  // cardContainer.appendChild(newCard);
 
   return newCard;
 }
