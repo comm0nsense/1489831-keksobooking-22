@@ -5,7 +5,7 @@ import { getData} from './api.js';
 import { showAlert } from './show-modal.js';
 import { disableFilters, enableFilters } from './filter.js';
 import { submitAdForm } from './submit-form.js';
-
+import { fileUpload} from './file-upload.js';
 
 const GET_DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
 
@@ -29,3 +29,6 @@ getData(GET_DATA_URL)
 
 //Запускаем отправку формы
 submitAdForm();
+
+//Подключаем модуль загрузки аватарки и фоток
+fileUpload();
