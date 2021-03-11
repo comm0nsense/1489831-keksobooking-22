@@ -1,7 +1,7 @@
 /* global L:readonly */
-
 import { enableForm, adFormAddress } from './form.js';
 import { createCard } from './card.js';
+import { setFilterHandler, MAX_ADS_COUNT } from './filter.js'
 
 const COORDINATE_DECIMALS_COUNT = 5;
 const MAP_SCALE = 10;
@@ -57,6 +57,20 @@ const getMap = () => {
 
   return map;
 };
+
+//инициализация карты + активация формы
+// const openstreetMap = getMap();
+const openstreetMap = getMap;
+
+
+//сброс карты в исходное состояние
+const resetMapView = () => {
+  openstreetMap().setView({
+    lat: DefaultCoordinates.X,
+    lng: DefaultCoordinates.Y,
+  }, MAP_SCALE);
+}
+
 
 //Рисуем Главную метку
 const mainMarker = L.marker(
@@ -126,11 +140,25 @@ const removeMarkers = () => {
   });
 };
 
+
+let slicedAds = [];
+
+//отрисовка маркеров
+const renderMarkers = (ads) => {
+  slicedAds = ads.slice(0, MAX_ADS_COUNT);
+  createMarkers(slicedAds);
+  setFilterHandler(ads);
+}
+
 export {
   getMap,
   DefaultCoordinates,
   createMarkers,
   removeMarkers,
   MAP_SCALE,
-  resetMainMarkerLatLng
+  resetMainMarkerLatLng,
+  renderMarkers,
+  slicedAds,
+  resetMapView,
+  openstreetMap
 }
