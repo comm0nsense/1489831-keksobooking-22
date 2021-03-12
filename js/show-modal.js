@@ -15,8 +15,9 @@ const errorModalTemplate = document.querySelector('#error')
 
 //Создем сообщение на основании темлейта
 const newSuccessModal = successModalTemplate.cloneNode(true);
+newSuccessModal.style.zIndex = '1000';
 const newErrorModal = errorModalTemplate.cloneNode(true);
-
+newErrorModal.style.zIndex = '1000';
 
 const showModal = (modal) => {
   const onModalEscKeydown = (evt) => {

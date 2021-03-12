@@ -6,6 +6,7 @@ import { showAlert } from './show-modal.js';
 import { disableFilters, enableFilters } from './filter.js';
 import { submitAdForm } from './submit-form.js';
 import { fileUpload} from './file-upload.js';
+// import './file-upload.js';
 
 const GET_DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
 
