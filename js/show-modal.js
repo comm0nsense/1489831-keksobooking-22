@@ -28,7 +28,7 @@ const showModal = (modal) => {
   const closeModal = () => {
     modal.remove();
     modal.removeEventListener('click', closeModal);
-    modal.removeEventListener('keydown', onModalEscKeydown);
+    document.removeEventListener('keydown', onModalEscKeydown);
   }
 
   modalContainer.append(modal);

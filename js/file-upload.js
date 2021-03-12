@@ -2,7 +2,7 @@ const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
 const avatarChooser = document.querySelector('.ad-form__field input[type=file]');
 const avatarPreview = document.querySelector('.ad-form-header__preview img');
-const avatarPreviewSrc = 'img/muffin-grey.svg';
+const AVATAR_PREVIEW_SRC = 'img/muffin-grey.svg';
 
 const photoChooser = document.querySelector('.ad-form__upload input[type=file]');
 const photoUpload = document.querySelector('.ad-form__photo');
@@ -49,5 +49,4 @@ const clearFileSrc = (preview, src) => {
   preview.src = src;
 };
 
-
-export { clearFileSrc, avatarPreview, avatarPreviewSrc, clearPhotoUpload, fileUpload }
+export { clearFileSrc, avatarPreview, AVATAR_PREVIEW_SRC, clearPhotoUpload, fileUpload }
