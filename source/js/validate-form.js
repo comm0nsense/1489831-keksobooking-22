@@ -17,7 +17,7 @@ const TypeToPrice = {
 const NotForGuestType = {
   ROOM: '100',
   GUEST: '0',
-}
+};
 
 const adTitle = adForm.querySelector('#title');
 const roomNumber = adForm.querySelector('#room_number');
@@ -27,21 +27,18 @@ const adType = adForm.querySelector('#type');
 const timeIn = adForm.querySelector('#timein');
 const timeOut = adForm.querySelector('#timeout');
 
-//Cброс цены по выбранному типу жилья
 const resetDefaultAdPrice = () => {
   const adTypeSelected = adType.value;
   const adTypeSelectedPrice = TypeToPrice[adTypeSelected]
   adPrice.placeholder = `${adTypeSelectedPrice}`;
 };
 
-// Подстановка мин стоимости по типу жилья
-const updateOfferPrice = () => {
+const onTypeSelect = () => {
   adPrice.placeholder = TypeToPrice[adType.value];
   adPrice.min = TypeToPrice[adType.value];
 };
 
-// Подстановка времени выезда по вермени заезда
-const updateCheckTime = (evt) => {
+const onTimeSelect = (evt) => {
   const timeSelected = evt.target.value;
   switch (evt.target) {
     case timeIn:
@@ -53,7 +50,6 @@ const updateCheckTime = (evt) => {
   }
 };
 
-//Проверка соответствия комнаты - гости
 const roomToGuest = (rooms, guests) => {
   if (rooms === NotForGuestType.ROOM && guests !== NotForGuestType.GUEST) {
     capacity.setCustomValidity('Не для гостей');
@@ -84,21 +80,19 @@ const getOptionSelected = (options) => {
 };
 
 
-const checkRooms = (evt) => {
+const onRoomSelect = (evt) => {
   const rooms = evt.target.value;
   const guests = getOptionSelected(capacityOptions);
   roomToGuest(rooms, guests);
 };
 
-const checkGuests = (evt) => {
+const onGuestSelect = (evt) => {
   const guests = evt.target.value;
   const rooms = getOptionSelected(roomOptions);
   roomToGuest(rooms, guests);
 };
 
-
-//Проверка заголовка объявления
-const checkTitleInput = () => {
+const onTitleInput = () => {
   const titleLength = adTitle.value.length;
 
   if (titleLength < TitleLength.MIN) {
@@ -112,8 +106,7 @@ const checkTitleInput = () => {
 };
 
 
-//Проверка цены предложения
-const checkOfferPrice = () => {
+const onPriceInput = () => {
   const price = adPrice.value;
   const minPrice = TypeToPrice[adType.value];
 
@@ -128,14 +121,13 @@ const checkOfferPrice = () => {
 };
 
 
-//Обработчики событий
 const setFormHandlers = () => {
-  adTitle.addEventListener('input', checkTitleInput);
-  adPrice.addEventListener('input', checkOfferPrice);
-  capacity.addEventListener('input', checkGuests);
-  roomNumber.addEventListener('input', checkRooms);
-  adForm.addEventListener('input', updateOfferPrice);
-  adForm.addEventListener('input', updateCheckTime);
+  adTitle.addEventListener('input', onTitleInput);
+  adPrice.addEventListener('input', onPriceInput);
+  capacity.addEventListener('input', onGuestSelect);
+  roomNumber.addEventListener('input', onRoomSelect);
+  adForm.addEventListener('input', onTypeSelect);
+  adForm.addEventListener('input', onTimeSelect);
 };
 
-export { setFormHandlers, resetDefaultAdPrice }
+export { setFormHandlers, resetDefaultAdPrice };

@@ -1,12 +1,9 @@
 import { DefaultCoordinates } from './map.js'
 
-//Форма и поля
 const adForm = document.querySelector('.ad-form');
 const adFormAddress = adForm.querySelector('#address');
 const adFormHeader = adForm.querySelector('.ad-form-header');
 const adFormElements = adForm.querySelectorAll('.ad-form__element');
-
-//Кнопка сброса формы
 const resetAdFormButton = adForm.querySelector('.ad-form__reset');
 
 const disableForm = () => {
@@ -24,8 +21,6 @@ const enableForm = () => {
 
 adFormAddress.readOnly = true;
 
-
-//Сброс формы и фильтров
 const resetForm = () => {
   adForm.reset();
   adFormAddress.value = `${DefaultCoordinates.X}, ${DefaultCoordinates.Y}`;
@@ -38,4 +33,4 @@ export {
   adForm,
   resetAdFormButton,
   resetForm
-}
+};

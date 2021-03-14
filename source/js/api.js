@@ -1,4 +1,3 @@
-// Полчучаем данные об объявлениях с сервера
 const getData = async (url) => {
   const response = await fetch(url);
 
@@ -11,7 +10,6 @@ const getData = async (url) => {
 
 };
 
-//Отпралвение данные из формы на сервер
 const postData = async (url, body) => {
   const response = await fetch(
     url,
@@ -25,4 +23,4 @@ const postData = async (url, body) => {
   }
 };
 
-export { getData, postData }
+export { getData, postData };

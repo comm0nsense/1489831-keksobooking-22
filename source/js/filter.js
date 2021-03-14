@@ -1,5 +1,5 @@
 /* global _:readonly */
-import { createMarkers, removeMarkers } from './map.js'
+import { createMarkers, removeMarkers } from './map.js';
 
 const MAX_ADS_COUNT = 10;
 const ANY_FILTER = 'any';
@@ -20,44 +20,37 @@ const priceToRange = {
   },
 };
 
-//Фильтрация объявлений
 const mapFilters = document.querySelector('.map__filters');
 const housingFilters = mapFilters.querySelectorAll('.map__filter');
 const mapFeatures = mapFilters.querySelector('.map__features');
-
 const housingType = mapFilters.querySelector('#housing-type');
 const housingPrice = mapFilters.querySelector('#housing-price');
 const housingRooms = mapFilters.querySelector('#housing-rooms');
 const housingGuests = mapFilters.querySelector('#housing-guests');
 
-//фильтрация объявлений - активация
 const disableFilters = () => {
   mapFilters.classList.add('map__filters--disabled');
   housingFilters.forEach(mapFilterId => mapFilterId.disabled = true);
   mapFeatures.disabled = true;
 };
 
-//деактивация фильтров
 const enableFilters = () => {
   mapFilters.classList.remove('map__filters--disabled');
   housingFilters.forEach(mapFilterId => mapFilterId.disabled = false);
   mapFeatures.disabled = false;
 };
 
-//Сброс фильтров
 const resetFilters = () => {
   mapFilters.reset();
 };
 
 const setFilterHandler = (ads) => {
-  //получаем текущие значение фильтров
   let adType = housingType.value;
   let adPrice = housingPrice.value;
   let adRooms = housingRooms.value;
   let adGuests = housingGuests.value;
   let adFeatures = [];
 
-  //Настройка фильтровки для каждого фильтра
   const filterType = ad => adType === ANY_FILTER ? true : ad.offer.type === adType;
   const filterRooms = ad => adRooms === ANY_FILTER ? true : ad.offer.rooms === +adRooms;
   const filterGuests = ad => (adGuests === ANY_FILTER ? true : ad.offer.guests === +adGuests);
@@ -66,16 +59,17 @@ const setFilterHandler = (ads) => {
 
   const filterFeatures = (ad) => {
     for (let i = 0; i <= adFeatures.length - 1; i++) {
+
       if (!ad.offer.features.includes(adFeatures[i])) {
         return false;
       }
     }
+
     return true;
   };
 
 
   const onFilterChange = (evt) => {
-    //изменяем значение при клике на фильтр
     if (evt.target.id === housingType.id) {
       adType = evt.target.value;
     } else if (evt.target.id === housingPrice.id) {
@@ -111,4 +105,4 @@ export {
   setFilterHandler,
   resetFilters,
   MAX_ADS_COUNT
-}
+};
