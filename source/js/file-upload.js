@@ -36,7 +36,6 @@ const setFileUploadHandler = (fileChooser, preview, FILE_TYPES) => {
   fileChooser.addEventListener('change', onFileUpload)
 };
 
-//Загрузка аватарки
 const fileUpload = () => {
   setFileUploadHandler(avatarChooser, avatarPreview, FILE_TYPES);
   setFileUploadHandler(photoChooser, photoPreview, FILE_TYPES)

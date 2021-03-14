@@ -1,4 +1,3 @@
-// Создание мапа по типам жилья
 const typeMap = new Map([
   ['palace', 'Дворец' ],
   ['flat', 'Квартира'],
@@ -6,11 +5,9 @@ const typeMap = new Map([
   ['bungalow', 'Бунгало'],
 ]);
 
-//Шаблон карточки
 const cardTemplate = document.querySelector('#card').content;
 const newCardTemplate = cardTemplate.querySelector('.popup');
 
-//Создаем карточку
 const createCard = (card) => {
   const newCard = newCardTemplate.cloneNode(true);
   newCard.querySelector('.popup__title').textContent = card.offer.title;
@@ -19,8 +16,6 @@ const createCard = (card) => {
   newCard.querySelector('.popup__type').textContent = typeMap.get(card.offer.type);
   newCard.querySelector('.popup__text--capacity').textContent = `${card.offer.rooms} комнаты для ${card.offer.guests} гостей`;
   newCard.querySelector('.popup__text--time').textContent = `Заезд после ${card.offer.checkin}, выезд до ${card.offer.checkout}`;
-
-  //Создаем список features
   const featuresList = newCard.querySelector('.popup__features');
   featuresList.innerHTML = ''
   const features = card.offer.features;
@@ -38,7 +33,6 @@ const createCard = (card) => {
 
   newCard.querySelector('.popup__description').textContent = card.offer.description;
 
-  //Созадем фотографии жилья
   const photosList =  newCard.querySelector('.popup__photos');
   const photo = photosList.querySelector('.popup__photo');
   const offerPhotos =  card.offer.photos;

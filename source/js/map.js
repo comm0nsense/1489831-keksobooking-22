@@ -1,4 +1,3 @@
-// /* global L:readonly */
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { enableForm, adFormAddress } from './form.js';
@@ -32,14 +31,12 @@ const DefaultCoordinates = {
 
 const map = L.map('map-canvas')
 
-//Параментры внешнего вида главной метки
 const mainMarkerIcon = L.icon({
   iconUrl: MarkerParameters.MAIN_MARKER_ICON_URL,
   iconSize: [MarkerParameters.WIDTH, MarkerParameters.HEIGHT],
   iconAnchor: [MarkerParameters.WIDTH / 2, MarkerParameters.HEIGHT],
 });
 
-//Рисуем карту
 const getMap = () => {
   map
     .on('load', () => {
@@ -60,21 +57,15 @@ const getMap = () => {
   return map;
 };
 
-//инициализация карты + активация формы
-// const openstreetMap = getMap();
 const openstreetMap = getMap;
 
-
-//сброс карты в исходное состояние
 const resetMapView = () => {
   openstreetMap().setView({
     lat: DefaultCoordinates.X,
     lng: DefaultCoordinates.Y,
   }, MAP_SCALE);
-}
+};
 
-
-//Рисуем Главную метку
 const mainMarker = L.marker(
   {
     lat: DefaultCoordinates.X,
@@ -86,7 +77,6 @@ const mainMarker = L.marker(
   },
 ).addTo(map);
 
-//Перемещение главное метки
 mainMarker.on('move', (evt) => {
   const lat = evt.target.getLatLng().lat.toFixed(COORDINATE_DECIMALS_COUNT);
   const lng = evt.target.getLatLng().lng.toFixed(COORDINATE_DECIMALS_COUNT);
@@ -95,9 +85,8 @@ mainMarker.on('move', (evt) => {
 
 const resetMainMarkerLatLng = () => {
   mainMarker.setLatLng([DefaultCoordinates.X, DefaultCoordinates.Y]);
-}
+};
 
-//Параментры внешнего вида меток объявлений
 const markerIcon = L.icon({
   iconUrl: MarkerParameters.MARKER_ICON_URL,
   iconSize: [MarkerParameters.WIDTH, MarkerParameters.HEIGHT],
@@ -106,7 +95,6 @@ const markerIcon = L.icon({
 
 const markers = [];
 
-//Рисуем обычную метку для объявлений
 const createMarker = (ad) => {
   const marker = L.marker(
     {
@@ -142,10 +130,8 @@ const removeMarkers = () => {
   });
 };
 
-
 let slicedAds = [];
 
-//отрисовка маркеров
 const renderMarkers = (ads) => {
   slicedAds = ads.slice(0, MAX_ADS_COUNT);
   createMarkers(slicedAds);

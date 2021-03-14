@@ -20,13 +20,11 @@ const setDefaults = () => {
   clearPhotoUpload();
 };
 
-//Сброс страницы до состояния по умолчанию по нажатию кнопки Очистить
 resetAdFormButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   setDefaults()
 });
 
-//Обработчик события Отправки формы
 const submitAdForm = () => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
