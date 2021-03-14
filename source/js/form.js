@@ -33,4 +33,4 @@ export {
   adForm,
   resetAdFormButton,
   resetForm
-}
+};

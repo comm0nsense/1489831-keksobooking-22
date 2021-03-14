@@ -1,5 +1,5 @@
 /* global _:readonly */
-import { createMarkers, removeMarkers } from './map.js'
+import { createMarkers, removeMarkers } from './map.js';
 
 const MAX_ADS_COUNT = 10;
 const ANY_FILTER = 'any';
@@ -105,4 +105,4 @@ export {
   setFilterHandler,
   resetFilters,
   MAX_ADS_COUNT
-}
+};

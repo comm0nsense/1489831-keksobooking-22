@@ -1,11 +1,11 @@
-import { resetMapView, resetMainMarkerLatLng, createMarkers, slicedAds } from './map.js'
-import { resetForm, resetAdFormButton } from './form.js'
-import { resetFilters} from './filter.js'
-import {resetDefaultAdPrice } from './validate-form.js'
+import { resetMapView, resetMainMarkerLatLng, createMarkers, slicedAds } from './map.js';
+import { resetForm, resetAdFormButton } from './form.js';
+import { resetFilters} from './filter.js';
+import {resetDefaultAdPrice } from './validate-form.js';
 import { newSuccessModal, newErrorModal, showModal } from './show-modal.js';
 import { adForm } from './form.js';
 import { postData } from './api.js';
-import { clearFileSrc, avatarPreview, AVATAR_PREVIEW_SRC, clearPhotoUpload } from './file-upload.js'
+import { clearFileSrc, avatarPreview, AVATAR_PREVIEW_SRC, clearPhotoUpload } from './file-upload.js';
 
 const POST_DATA_URL = 'https://22.javascript.pages.academy/keksobooking';
 
@@ -44,4 +44,4 @@ const submitAdForm = () => {
 export {
   setDefaults,
   submitAdForm
-}
+};

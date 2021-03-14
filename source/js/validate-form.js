@@ -130,4 +130,4 @@ const setFormHandlers = () => {
   adForm.addEventListener('input', onTimeSelect);
 };
 
-export { setFormHandlers, resetDefaultAdPrice }
+export { setFormHandlers, resetDefaultAdPrice };

@@ -1,7 +1,6 @@
 const ESC_KEYDOWN = ['Escape', 'Esc'];
 const ALERT_SHOW_TIME = 5000;
 
-
 const modalContainer = document.querySelector('main');
 
 const successModalTemplate = document.querySelector('#success')
