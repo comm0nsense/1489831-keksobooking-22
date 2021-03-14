@@ -10,6 +10,7 @@ import { fileUpload} from './file-upload.js';
 
 const GET_DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
 
+
 //Делаем страницу неактивной
 disableForm();
 disableFilters();
